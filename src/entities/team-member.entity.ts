@@ -3,7 +3,7 @@ import {
   Entity, JoinColumn, ManyToOne, PrimaryColumn,
 } from 'typeorm';
 import { Field, ObjectType } from 'type-graphql';
-import { TeamRole } from '../types/team-member.type';
+import { TeamMemberRole, TeamMemberStatus } from '../types/team-member.type';
 import EntityWrapper from './wrapper';
 import Team from './team.entity';
 import User from './user.entity';
@@ -25,7 +25,17 @@ class TeamMember extends EntityWrapper {
    */
   @Field()
   @Column()
-    role: TeamRole;
+    role: TeamMemberRole;
+
+  /**
+   *
+   *
+   * @type {TeamMemberStatus}
+   * @memberof TeamMember
+   */
+  @Field()
+  @Column()
+    status: TeamMemberStatus;
 
   /**
    *

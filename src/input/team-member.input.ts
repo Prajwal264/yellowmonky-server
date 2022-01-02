@@ -1,5 +1,5 @@
 import { ArgsType, Field } from 'type-graphql';
-import { TeamRole } from '../types/team-member.type';
+import { TeamMemberRole, TeamMemberStatus } from '../types/team-member.type';
 import TeamMember from '../entities/team-member.entity';
 
 /**
@@ -34,8 +34,17 @@ class CreateTeamMemberInput implements Partial<TeamMember> {
    * @type {string}
    * @memberof CreateTeamInput
    */
-  @Field({ defaultValue: TeamRole.MEMBER })
-    role: TeamRole;
+  @Field({ defaultValue: TeamMemberRole.MEMBER })
+    role: TeamMemberRole;
+
+  /**
+   *
+   *
+   * @type {string}
+   * @memberof CreateTeamInput
+   */
+  @Field({ defaultValue: TeamMemberStatus.INVITED })
+    status: TeamMemberStatus;
 }
 
 export { CreateTeamMemberInput };

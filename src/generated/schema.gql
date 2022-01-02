@@ -65,6 +65,7 @@ type TeamMember implements EntityWrapper {
   createdAt: DateTime!
   id: ID!
   role: String!
+  status: String!
   teamId: String!
   updatedAt: DateTime!
   userId: String!

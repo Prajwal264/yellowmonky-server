@@ -7,7 +7,7 @@ import UserService from '../services/user.service';
 import TeamService from '../services/team.service';
 import TeamMemberService from '../services/team-member.service';
 import { RegisterAdminResponse, UserResponse } from '../types/user.type';
-import { TeamRole } from '../types/team-member.type';
+import { TeamMemberRole, TeamMemberStatus } from '../types/team-member.type';
 import User from '../entities/user.entity';
 import { LoginInput, RegisterInput } from '../input/user.input';
 import { CreateTeamMemberInput } from '../input/team-member.input';
@@ -53,7 +53,8 @@ class UserResolver {
     const teamResponse = await this.teamService.create({}, userResponse);
 
     const createTeamMemberPayload: CreateTeamMemberInput = {} as CreateTeamMemberInput;
-    createTeamMemberPayload.role = TeamRole.ADMIN;
+    createTeamMemberPayload.role = TeamMemberRole.ADMIN;
+    createTeamMemberPayload.status = TeamMemberStatus.JOINED;
     createTeamMemberPayload.userId = userResponse.id;
     createTeamMemberPayload.teamId = teamResponse.id;
     await this.teamMemberService.create(createTeamMemberPayload);
