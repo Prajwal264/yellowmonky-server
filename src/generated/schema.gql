@@ -13,10 +13,25 @@ type AdminUser implements EntityWrapper {
   username: String!
 }
 
+type Channel implements EntityWrapper {
+  adminId: String!
+  createdAt: DateTime!
+  description: String
+  id: ID!
+  name: String!
+  teamId: String!
+  updatedAt: DateTime!
+}
+
 """
 The javascript `Date` as string. Type represents date and time as the ISO Date string.
 """
 scalar DateTime
+
+type EditTeamResponse {
+  channels: [String!]!
+  teamId: String!
+}
 
 """
 parent entity type. This consists the shared logic and fields for all entities.
@@ -34,6 +49,7 @@ type Error {
 }
 
 type Mutation {
+  editTeam(channels: [String], displayPicture: String, id: String!, members: [String], name: String, ownerId: String!): EditTeamResponse!
   login(email: String!, password: String!): UserResponse!
   registerAdmin(email: String!, password: String!, username: String!): RegisterAdminResponse!
 }
@@ -64,11 +80,33 @@ type Team implements EntityWrapper {
 type TeamMember implements EntityWrapper {
   createdAt: DateTime!
   id: ID!
-  role: String!
-  status: String!
+  role: TeamMemberRole!
+  status: TeamMemberStatus!
   teamId: String!
   updatedAt: DateTime!
   userId: String!
+}
+
+"""The team member role type"""
+enum TeamMemberRole {
+  ADMIN
+  MEMBER
+}
+
+"""The team member status type"""
+enum TeamMemberStatus {
+  INVITED
+  JOINED
+  REJECTED
+}
+
+type TeamResponse implements EntityWrapper {
+  createdAt: DateTime!
+  displayPicture: String
+  id: ID!
+  name: String
+  ownerId: String!
+  updatedAt: DateTime!
 }
 
 type User implements EntityWrapper {

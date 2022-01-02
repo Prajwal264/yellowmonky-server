@@ -13,7 +13,8 @@
     "watch": "tsc -w",
     "prepare": "husky install",
     "error": "eslint .",
-    "fixlint": "eslint . --fix"
+    "fixlint": "eslint . --fix",
+    "debug": "cross-env TZ=UTC NODE_ENV=development tsnd --inspect --respawn src/index.ts"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
@@ -27,6 +28,7 @@
     "eslint-plugin-import": "^2.25.3",
     "husky": "^7.0.4",
     "nodemon": "^2.0.15",
+    "ts-node-dev": "^1.1.8",
     "typescript": "^4.5.3"
   },
   "dependencies": {
@@ -35,6 +37,7 @@
     "bcrypt": "^5.0.1",
     "class-validator": "^0.13.2",
     "class-validator-message-formatter": "^0.0.3",
+    "cross-env": "^7.0.3",
     "express": "^4.17.1",
     "graphql": "^15.3.0",
     "pg": "^8.7.1",

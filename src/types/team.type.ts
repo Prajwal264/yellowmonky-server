@@ -1,4 +1,4 @@
-import { ObjectType } from 'type-graphql';
+import { Field, ObjectType } from 'type-graphql';
 import Team from '../entities/team.entity';
 
 /**
@@ -9,4 +9,13 @@ import Team from '../entities/team.entity';
  */
 @ObjectType()
 export class TeamResponse extends Team {
+}
+
+@ObjectType()
+export class EditTeamResponse {
+  @Field()
+    teamId: string;
+
+  @Field(() => [String])
+    channels: string[]; // array of channelId's for the team
 }

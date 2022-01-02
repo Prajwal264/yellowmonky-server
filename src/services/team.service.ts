@@ -4,7 +4,7 @@ import User from '../entities/user.entity';
 import { ERROR_TYPE } from '../constants/errors';
 import Team from '../entities/team.entity';
 import { TeamResponse } from '../types/team.type';
-import { CreateTeamInput } from '../input/team.input';
+import { CreateTeamInput, EditTeamInput } from '../input/team.input';
 
 /**
  *
@@ -47,7 +47,7 @@ class TeamService {
     if (payload.name) {
       const team = await this.getByName(payload.name);
       if (team) {
-        throw new CustomError(ERROR_TYPE.NOT_FOUND, `team with name ${payload.name} already exists`);
+        throw new CustomError(ERROR_TYPE.CONFLICT, `team with name ${payload.name} already exists`);
       }
     }
 
@@ -57,6 +57,18 @@ class TeamService {
     }).save();
 
     return team;
+  }
+
+  public async edit(payload: EditTeamInput): Promise<TeamResponse> {
+    const editTeamPayload = {} as EditTeamInput;
+    if (payload.name) editTeamPayload.name = payload.name;
+    if (payload.displayPicture) editTeamPayload.displayPicture = payload.displayPicture;
+    const team = await this.getById(payload.id);
+    await Team.update(team, editTeamPayload);
+    return {
+      ...team,
+      ...editTeamPayload,
+    } as TeamResponse;
   }
 }
 

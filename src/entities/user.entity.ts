@@ -6,6 +6,7 @@ import { IsEmail } from 'class-validator';
 import EntityWrapper from './wrapper';
 import TeamMember from './team-member.entity';
 import Team from './team.entity';
+import Channel from './channel.entity';
 
 /**
  *
@@ -59,7 +60,16 @@ class User extends EntityWrapper {
   /**
    *
    *
-   * @type {TeamMember[]}
+   * @type {Channel[]}
+   * @memberof User
+   */
+  @OneToMany(() => Channel, (channel) => channel.admin)
+    channelAdmin: Channel[];
+
+  /**
+   *
+   *
+   * @type {Team[]}
    * @memberof User
    */
   @OneToMany(() => Team, (team) => team.owner)

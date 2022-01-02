@@ -5,6 +5,7 @@ import { Field, ObjectType } from 'type-graphql';
 import EntityWrapper from './wrapper';
 import TeamMember from './team-member.entity';
 import User from './user.entity';
+import Channel from './channel.entity';
 
 /**
  *
@@ -63,6 +64,15 @@ class Team extends EntityWrapper {
    */
   @OneToMany(() => TeamMember, (teamMember) => teamMember.team)
     teamMembers: TeamMember[];
+
+  /**
+   *
+   *
+   * @type {TeamMember[]}
+   * @memberof Team
+   */
+  @OneToMany(() => Channel, (channel) => channel.team)
+    teamChannels: Channel[];
 }
 
 export default Team;

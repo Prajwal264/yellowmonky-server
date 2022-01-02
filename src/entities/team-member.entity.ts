@@ -23,7 +23,7 @@ class TeamMember extends EntityWrapper {
    * @type {TeamRole}
    * @memberof TeamMember
    */
-  @Field()
+  @Field(() => TeamMemberRole)
   @Column()
     role: TeamMemberRole;
 
@@ -33,7 +33,7 @@ class TeamMember extends EntityWrapper {
    * @type {TeamMemberStatus}
    * @memberof TeamMember
    */
-  @Field()
+  @Field(() => TeamMemberStatus)
   @Column()
     status: TeamMemberStatus;
 
