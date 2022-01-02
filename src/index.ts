@@ -5,6 +5,7 @@ import { buildSchema } from 'type-graphql';
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core';
 import { createConnection } from 'typeorm';
 import Container from 'typedi';
+import { formatError } from './helpers/error.helper';
 
 /**
  *
@@ -107,6 +108,7 @@ class Server {
     this.graphQLServer = new ApolloServer({
       schema,
       plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
+      formatError,
     });
 
     await this.graphQLServer.start();

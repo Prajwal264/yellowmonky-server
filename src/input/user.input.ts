@@ -1,3 +1,4 @@
+import { IsEmail } from 'class-validator';
 import { ArgsType, Field } from 'type-graphql';
 import User from '../entities/user.entity';
 
@@ -34,6 +35,7 @@ class RegisterInput implements Partial<User> {
    * @memberof RegisterInput
    */
   @Field()
+  @IsEmail()
     email: string;
 }
 
@@ -52,6 +54,7 @@ class LoginInput implements Partial<User> {
      * @memberof LoginInput
      */
     @Field()
+    @IsEmail()
       email: string;
 
    /**

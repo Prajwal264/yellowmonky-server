@@ -1,7 +1,11 @@
-import { Column, Entity } from 'typeorm';
+import {
+  Column, Entity, OneToMany,
+} from 'typeorm';
 import { Field, ObjectType } from 'type-graphql';
 import { IsEmail } from 'class-validator';
 import EntityWrapper from './wrapper';
+import TeamMember from './team-member.entity';
+import Team from './team.entity';
 
 /**
  *
@@ -19,8 +23,9 @@ class User extends EntityWrapper {
    * @memberof User
    */
   @Field()
-  @Column()
-    username: string;
+  @Column({ unique: true })
+  @IsEmail({}, { message: 'Invalid Email' })
+    email: string;
 
   /**
    *
@@ -29,9 +34,8 @@ class User extends EntityWrapper {
    * @memberof User
    */
   @Field()
-  @Column({ unique: true })
-  @IsEmail({}, { message: 'Invalid Email' })
-    email: string;
+  @Column()
+    username: string;
 
   /**
    *
@@ -51,6 +55,24 @@ class User extends EntityWrapper {
   @Field({ nullable: true })
   @Column({ name: 'profile_image', nullable: true })
     profileImage?: string;
+
+  /**
+   *
+   *
+   * @type {TeamMember[]}
+   * @memberof User
+   */
+  @OneToMany(() => Team, (team) => team.owner)
+    teamOwner: Team[];
+
+  /**
+   *
+   *
+   * @type {TeamMember[]}
+   * @memberof User
+   */
+  @OneToMany(() => TeamMember, (teamMember) => teamMember.user)
+    teamMembers: TeamMember[];
 }
 
 export default User;

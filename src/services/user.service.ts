@@ -1,6 +1,7 @@
 import { Service } from 'typedi';
 import { compare, hash } from 'bcrypt';
-import errors, { ERROR_TYPE } from '../constants/errors';
+import { CustomError } from '../types/custom-error.type';
+import { ERROR_TYPE } from '../constants/errors';
 import { UserResponse } from '../types/user.type';
 import { LoginInput, RegisterInput } from '../input/user.input';
 import User from '../entities/user.entity';
@@ -54,11 +55,23 @@ class UserService {
    * @param {string} email
    * @memberof UserService
    */
-  public async getByEmail(email: string): Promise<UserResponse> {
+  public async getById(id: string): Promise<UserResponse> {
+    const user = await User.findOne(id);
+    if (!user) {
+      throw new CustomError(ERROR_TYPE.NOT_FOUND, 'id');
+    }
+    return user;
+  }
+
+  /**
+   *
+   *
+   * @param {string} email
+   * @memberof UserService
+   */
+  public async getByEmail(email: string): Promise<UserResponse | undefined> {
     const user = await User.findOne({ email });
-    return {
-      data: user,
-    };
+    return user;
   }
 
   /**
@@ -71,52 +84,10 @@ class UserService {
     const {
       email, username, password,
     } = payload;
-    // if (!email) {
-    //   return {
-    //     errors: [{
-    //       field: 'email',
-    //       message: 'Email cannot be empty',
-    //       statusCode: errors[ERROR_TYPE.BAD_REQUEST].statusCode,
-    //     }],
-    //   };
-    // }
-    // if (!username) {
-    //   return {
-    //     errors: [{
-    //       field: 'username',
-    //       message: 'Username cannot be empty',
-    //       statusCode: errors[ERROR_TYPE.BAD_REQUEST].statusCode,
-    //     }],
-    //   };
-    // }
-    // if (!password) {
-    //   return {
-    //     errors: [{
-    //       field: 'password',
-    //       message: 'Password cannot be empty',
-    //       statusCode: errors[ERROR_TYPE.BAD_REQUEST].statusCode,
-    //     }],
-    //   };
-    // }
-    // if (!accountType) {
-    //   return {
-    //     errors: [{
-    //       field: 'accountType',
-    //       message: 'accountType cannot be empty',
-    //       statusCode: errors[ERROR_TYPE.BAD_REQUEST].statusCode,
-    //     }],
-    //   };
-    // }
     // check if the user already exists
     const userResponse = await this.getByEmail(email);
-    if (userResponse.data) {
-      return {
-        errors: [{
-          field: 'email',
-          message: `User with email: ${email} already exists`,
-          statusCode: errors[ERROR_TYPE.CONFLICT].statusCode,
-        }],
-      };
+    if (userResponse) {
+      throw new CustomError(ERROR_TYPE.CONFLICT, `User with ${email} already exists`);
     }
     const hashedPassword = await this.hashPassword(password);
     const user = await User.create({
@@ -125,8 +96,10 @@ class UserService {
       password: hashedPassword,
     }).save();
 
-    return { data: user };
+    return user;
   }
+  // signup - create a team, admin
+  // create-team - teamname, channels, members
 
   /**
    *
@@ -138,24 +111,12 @@ class UserService {
   async verify(payload: LoginInput): Promise<UserResponse> {
     const { email, password } = payload;
     const userResponse = await this.getByEmail(email);
-    if (!userResponse.data) {
-      return {
-        errors: [{
-          field: 'email',
-          message: `User with email: ${email} doesn't exist`,
-          statusCode: errors[ERROR_TYPE.CONFLICT].statusCode,
-        }],
-      };
+    if (!userResponse) {
+      throw new CustomError(ERROR_TYPE.NOT_FOUND, 'email');
     }
-
-    const validUser = await this.comparePasswords(password, userResponse.data.password);
+    const validUser = await this.comparePasswords(password, userResponse.password);
     if (!validUser) {
-      return {
-        errors: [{
-          field: 'password',
-          ...errors[ERROR_TYPE.UNAUTHORIZED],
-        }],
-      };
+      throw new CustomError(ERROR_TYPE.UNAUTHORIZED, 'password');
     }
     return userResponse;
   }
