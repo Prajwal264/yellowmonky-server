@@ -87,7 +87,7 @@ class UserService {
     // check if the user already exists
     const userResponse = await this.getByEmail(email);
     if (userResponse) {
-      throw new CustomError(ERROR_TYPE.CONFLICT, `User with ${email} already exists`);
+      throw new CustomError(ERROR_TYPE.CONFLICT, 'email', `User with ${email} already exists`);
     }
     const hashedPassword = await this.hashPassword(password);
     const user = await User.create({
