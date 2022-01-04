@@ -20,6 +20,13 @@ import { CreateTeamMemberInput } from '../input/team-member.input';
 @Service()
 @Resolver(() => User)
 class UserResolver {
+  /**
+   * Creates an instance of UserResolver.
+   * @param {UserService} userService
+   * @param {TeamService} teamService
+   * @param {TeamMemberService} teamMemberService
+   * @memberof UserResolver
+   */
   constructor(
     @Inject()
     private readonly userService: UserService,
@@ -62,6 +69,13 @@ class UserResolver {
     return { ...userResponse, teamId: teamResponse.id };
   }
 
+  /**
+   *
+   *
+   * @param {LoginInput} payload
+   * @return {*}
+   * @memberof UserResolver
+   */
   @Mutation(() => UserResponse)
   async login(
     @Args() payload: LoginInput,

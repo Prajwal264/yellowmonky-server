@@ -8,9 +8,21 @@ import Team from '../entities/team.entity';
 import { EditTeamResponse } from '../types/team.type';
 import UserService from '../services/user.service';
 
+/**
+ *
+ *
+ * @class TeamResolver
+ */
 @Service()
 @Resolver(() => Team)
 class TeamResolver {
+  /**
+   * Creates an instance of TeamResolver.
+   * @param {UserService} userService
+   * @param {TeamService} teamService
+   * @param {ChannelService} channelService
+   * @memberof TeamResolver
+   */
   constructor(
     @Inject() private readonly userService: UserService,
     @Inject() private readonly teamService: TeamService,

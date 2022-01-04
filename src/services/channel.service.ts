@@ -54,6 +54,21 @@ class ChannelService {
   /**
    *
    *
+   * @param {string} channelId
+   * @return {*}  {Promise<Channel>}
+   * @memberof ChannelService
+   */
+  public async fetchById(channelId: string): Promise<Channel> {
+    const channel = await Channel.findOne(channelId);
+    if (!channel) {
+      throw new CustomError(ERROR_TYPE.NOT_FOUND, 'channelId', 'No Channel Found');
+    }
+    return channel;
+  }
+
+  /**
+   *
+   *
    * @param {string} teamId
    * @memberof ChannelService
    */

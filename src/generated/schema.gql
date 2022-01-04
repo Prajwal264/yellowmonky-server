@@ -55,6 +55,9 @@ type Mutation {
 }
 
 type Query {
+  allChannels(teamId: String!): [Channel]!
+  allTeamMembers(teamId: String!): [TeamMember!]!
+  channel(channelId: String!): Channel!
   getUsers: [User]!
 }
 
@@ -84,6 +87,7 @@ type TeamMember implements EntityWrapper {
   status: TeamMemberStatus!
   teamId: String!
   updatedAt: DateTime!
+  user: User!
   userId: String!
 }
 

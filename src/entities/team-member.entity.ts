@@ -44,7 +44,7 @@ class TeamMember extends EntityWrapper {
    * @memberof UserTeam
    */
    @Field()
-  @PrimaryColumn({ name: 'user_id' })
+  @Column({ name: 'user_id' })
      userId: string;
 
    /**
@@ -54,6 +54,7 @@ class TeamMember extends EntityWrapper {
    * @memberof UserTeam
    */
    @ManyToOne(() => User, (user) => user.teamMembers)
+   @Field(() => User)
    @JoinColumn({ name: 'user_id' })
      user: User;
 
@@ -64,7 +65,7 @@ class TeamMember extends EntityWrapper {
    * @memberof UserTeam
    */
   @Field()
-  @PrimaryColumn({ name: 'team_id' })
+  @Column({ name: 'team_id' })
     teamId: string;
 
   /**

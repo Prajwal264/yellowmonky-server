@@ -11,11 +11,29 @@ import TeamMember from '../entities/team-member.entity';
  */
 @Service()
 class TeamMemberService {
+  /**
+   * Creates an instance of TeamMemberService.
+   * @param {UserService} userService
+   * @param {TeamService} teamService
+   * @memberof TeamMemberService
+   */
   constructor(
     @Inject()
     private readonly userService: UserService,
     private readonly teamService: TeamService,
   ) {}
+
+  /**
+   *
+   *
+   * @param {string} teamId
+   * @return {*}
+   * @memberof TeamMemberService
+   */
+  public async fetchAllByIteam(teamId: string): Promise<TeamMember[]> {
+    const members = await TeamMember.find({ where: { teamId }, relations: ['user'] });
+    return members;
+  }
 
   /**
    *

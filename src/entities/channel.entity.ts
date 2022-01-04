@@ -3,7 +3,6 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  PrimaryColumn,
 } from 'typeorm';
 import { Field, ObjectType } from 'type-graphql';
 import EntityWrapper from './wrapper';
@@ -45,7 +44,7 @@ class Channel extends EntityWrapper {
    * @memberof Channel
    */
   @Field()
-  @PrimaryColumn({ name: 'admin_id' })
+  @Column({ name: 'admin_id' })
     adminId: string;
 
   /**
@@ -65,7 +64,7 @@ class Channel extends EntityWrapper {
    * @memberof Channel
    */
   @Field()
-  @PrimaryColumn({ name: 'team_id' })
+  @Column({ name: 'team_id' })
     teamId: string;
 
   /**
