@@ -1,6 +1,6 @@
 import {
   Column,
-  Entity, JoinColumn, ManyToOne, PrimaryColumn,
+  Entity, JoinColumn, ManyToOne,
 } from 'typeorm';
 import { Field, ObjectType } from 'type-graphql';
 import { TeamMemberRole, TeamMemberStatus } from '../types/team-member.type';

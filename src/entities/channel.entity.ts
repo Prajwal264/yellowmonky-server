@@ -3,11 +3,13 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
 } from 'typeorm';
 import { Field, ObjectType } from 'type-graphql';
 import EntityWrapper from './wrapper';
 import Team from './team.entity';
 import User from './user.entity';
+import Message from './message.entity';
 /**
  *
  *
@@ -66,6 +68,16 @@ class Channel extends EntityWrapper {
   @Field()
   @Column({ name: 'team_id' })
     teamId: string;
+
+  /**
+   *
+   *
+   * @type {Team}
+   * @memberof Channel
+   */
+  @OneToMany(() => Message, (message) => message.sourceChannel)
+  @JoinColumn()
+    channelMessage: Message[];
 
   /**
    *

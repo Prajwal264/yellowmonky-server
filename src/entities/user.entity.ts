@@ -7,6 +7,7 @@ import EntityWrapper from './wrapper';
 import TeamMember from './team-member.entity';
 import Team from './team.entity';
 import Channel from './channel.entity';
+import Message from './message.entity';
 
 /**
  *
@@ -65,6 +66,15 @@ class User extends EntityWrapper {
    */
   @OneToMany(() => Channel, (channel) => channel.admin)
     channelAdmin: Channel[];
+
+  /**
+   *
+   *
+   * @type {Team[]}
+   * @memberof User
+   */
+  @OneToMany(() => Message, (message) => message.creator)
+    messageCreator: Message[];
 
   /**
    *

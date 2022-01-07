@@ -48,7 +48,29 @@ type Error {
   statusCode: Int!
 }
 
+type Message implements EntityWrapper {
+  childMessages: Message
+  content: String!
+  createdAt: DateTime!
+  creator: User!
+  creatorId: String!
+  id: ID!
+  parentMessage: Message
+  parentMessageId: String
+  sourceChannel: Channel!
+  sourceChannelId: String!
+  sourceType: MessageSourceType!
+  updatedAt: DateTime!
+}
+
+"""The source type of the message"""
+enum MessageSourceType {
+  CHANNEL
+  DIRECT_MESSAGE
+}
+
 type Mutation {
+  createMessage(content: String!, creatorId: String!, sourceChannelId: String, sourceType: MessageSourceType!): String!
   editTeam(channels: [String], displayPicture: String, id: String!, members: [String], name: String, ownerId: String!): EditTeamResponse!
   login(email: String!, password: String!): UserResponse!
   registerAdmin(email: String!, password: String!, username: String!): RegisterAdminResponse!
