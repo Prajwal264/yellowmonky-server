@@ -88,7 +88,7 @@ class TeamService {
           const inviteToken = createInviteMemberToken({
             emailId,
           }, '7d');
-          const clientDomain = 'http://localhost:3000/join-team/';
+          const clientDomain = `${process.env.CLIENT_URL}/join-team/`;
           const inviteLink = `${clientDomain}/${metadata.team.id}/?joinId=${inviteToken}`;
           try {
             const source = data.toString();
