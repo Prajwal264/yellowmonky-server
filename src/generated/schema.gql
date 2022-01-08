@@ -72,6 +72,7 @@ enum MessageSourceType {
 type Mutation {
   createMessage(content: String!, creatorId: String!, sourceChannelId: String, sourceType: MessageSourceType!): String!
   editTeam(channels: [String], displayPicture: String, id: String!, members: [String], name: String, ownerId: String!): EditTeamResponse!
+  inviteMember(inviteeEmail: String!, inviterId: String!, teamId: String!): Boolean!
   login(email: String!, password: String!): UserResponse!
   registerAdmin(email: String!, password: String!, username: String!): RegisterAdminResponse!
 }

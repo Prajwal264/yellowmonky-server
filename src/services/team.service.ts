@@ -1,4 +1,7 @@
 import { Service } from 'typedi';
+import Handlebars from 'handlebars';
+import fs from 'fs';
+import { createTransporter } from '../helpers/auth.helper';
 import { CustomError } from '../types/custom-error.type';
 import User from '../entities/user.entity';
 import { ERROR_TYPE } from '../constants/errors';
@@ -69,6 +72,42 @@ class TeamService {
       ...team,
       ...editTeamPayload,
     } as TeamResponse;
+  }
+
+  public async sendInvite(
+    emailId: string,
+    metadata: {
+      team: Team,
+      inviter: User
+    },
+  ): Promise<boolean> {
+    return new Promise((resolve) => {
+      fs.readFile('assets/html/join-team.hbs', async (err: any, data: any) => {
+        if (!err) {
+          try {
+            const source = data.toString();
+            const template = Handlebars.compile(source);
+            const html = template({
+              ...metadata,
+              emailId,
+              firstCharacter: metadata.inviter.username[0],
+            });
+
+            const transporter = await createTransporter();
+            await transporter.sendMail({
+              to: emailId, // list of receivers
+              subject: `${metadata.inviter.username} has invited you to work with them in YellowMonky`,
+              html,
+            });
+            resolve(true);
+          } catch (e) {
+            resolve(false);
+          }
+        } else {
+          resolve(false);
+        }
+      });
+    });
   }
 }
 

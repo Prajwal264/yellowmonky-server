@@ -1,9 +1,11 @@
-import { Args, Mutation, Resolver } from 'type-graphql';
+import {
+  Arg, Args, Mutation, Resolver,
+} from 'type-graphql';
 import { Inject, Service } from 'typedi';
 import { ChannelResponse } from '../types/channel.type';
 import ChannelService from '../services/channel.service';
 import TeamService from '../services/team.service';
-import { EditTeamInput } from '../input/team.input';
+import { EditTeamInput, InvitedMemberInput } from '../input/team.input';
 import Team from '../entities/team.entity';
 import { EditTeamResponse } from '../types/team.type';
 import UserService from '../services/user.service';
@@ -83,10 +85,26 @@ class TeamResolver {
     const channels = await Promise.all(channelPromises);
     existingChannels.push(...channels);
     // invite members
+    if (payload.members?.length) {
+      const memberInvitePromises = payload.members
+        .map((member) => this.teamService.sendInvite(member, { team, inviter: admin }));
+      Promise.all(memberInvitePromises); // no need to wait
+    }
     return {
       teamId,
       channels: existingChannels.map((channel) => channel.id),
     };
+  }
+
+  @Mutation(() => Boolean)
+  async inviteMember(
+    @Args() payload: InvitedMemberInput,
+  ) {
+    const teamPromise = this.teamService.getById(payload.teamId);
+    const inviterPromise = this.userService.getById(payload.inviterId);
+    const [team, inviter] = await Promise.all([teamPromise, inviterPromise]);
+    const response = await this.teamService.sendInvite(payload.inviteeEmail, { team, inviter });
+    return response;
   }
 }
 

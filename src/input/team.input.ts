@@ -75,7 +75,44 @@ class EditTeamInput extends CreateTeamInput {
     ownerId: string;
 }
 
+/**
+ *
+ *
+ * @class CreateTeamInput
+ */
+ @ArgsType()
+class InvitedMemberInput {
+  /**
+  *
+  *
+  * @type {[string]}
+  * @memberof CreateTeamInput
+  */
+  @Field(() => String)
+    inviterId: string;
+
+   /**
+    *
+    *
+    * @type {[string]}
+    * @memberof CreateTeamInput
+    */
+   @Field(() => String)
+   @IsEmail()
+     inviteeEmail: string;
+
+   /**
+    *
+    *
+    * @type {string}
+    * @memberof CreateTeamInput
+    */
+   @Field()
+     teamId: string;
+ }
+
 export {
   CreateTeamInput,
   EditTeamInput,
+  InvitedMemberInput,
 };
