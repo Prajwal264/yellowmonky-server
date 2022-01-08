@@ -77,6 +77,7 @@ type Mutation {
 }
 
 type Query {
+  allChannelMessages(channelId: String!): [Message!]!
   allChannels(teamId: String!): [Channel]!
   allTeamMembers(teamId: String!): [TeamMember!]!
   channel(channelId: String!): Channel!

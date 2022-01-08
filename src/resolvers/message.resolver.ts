@@ -1,4 +1,6 @@
-import { Args, Mutation, Resolver } from 'type-graphql';
+import {
+  Arg, Args, Mutation, Query, Resolver,
+} from 'type-graphql';
 import { Inject, Service } from 'typedi';
 import { CreateMessageInput } from '../input/message.input';
 import MessageService from '../services/message.service';
@@ -11,6 +13,20 @@ class MessageResolver {
     @Inject() private readonly messageService: MessageService,
   ) {}
 
+  @Query(() => [Message])
+  async allChannelMessages(
+    @Arg('channelId') channelId: string,
+  ): Promise<Message[]> {
+    return this.messageService.getAllByChannelId(channelId);
+  }
+
+  /**
+   *
+   *
+   * @param {CreateMessageInput} payload
+   * @return {*}  {Promise<String>}
+   * @memberof MessageResolver
+   */
   @Mutation(() => String)
   async createMessage(
     @Args() payload: CreateMessageInput,

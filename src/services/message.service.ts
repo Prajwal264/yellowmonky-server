@@ -6,7 +6,16 @@ import { CreateMessageInput } from '../input/message.input';
 class MessageService {
   constructor() {}
 
-  public async create(payload: CreateMessageInput) {
+  public async getAllByChannelId(channelId: string): Promise<Message[]> {
+    const messages = await Message.find({
+      where: {
+        sourceChannelId: channelId,
+      },
+    });
+    return messages;
+  }
+
+  public async create(payload: CreateMessageInput): Promise<String> {
     const response = await Message.create(payload).save();
     return response.id;
   }
