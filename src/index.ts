@@ -7,6 +7,7 @@ import { createConnection } from 'typeorm';
 import Container from 'typedi';
 import { WebSocketServer } from 'ws';
 import { useServer } from 'graphql-ws/lib/use/ws';
+import cors from 'cors';
 import { formatError } from './helpers/error.helper';
 
 /**
@@ -93,6 +94,7 @@ class Server {
    */
   private createExpressApplication() {
     this.app = express();
+    this.app.use(cors());
   }
 
   /**
