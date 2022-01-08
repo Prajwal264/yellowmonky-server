@@ -23,6 +23,12 @@ type Channel implements EntityWrapper {
   updatedAt: DateTime!
 }
 
+type CreateMemberResponse {
+  channelId: String!
+  id: String!
+  teamId: String!
+}
+
 """
 The javascript `Date` as string. Type represents date and time as the ISO Date string.
 """
@@ -71,6 +77,7 @@ enum MessageSourceType {
 
 type Mutation {
   createMessage(content: String!, creatorId: String!, sourceChannelId: String, sourceType: MessageSourceType!): String!
+  createUserAndAddToTeam(email: String!, password: String!, teamId: String!, username: String!): CreateMemberResponse!
   editTeam(channels: [String], displayPicture: String, id: String!, members: [String], name: String, ownerId: String!): EditTeamResponse!
   inviteMember(inviteeEmail: String!, inviterId: String!, teamId: String!): Boolean!
   login(email: String!, password: String!): UserResponse!

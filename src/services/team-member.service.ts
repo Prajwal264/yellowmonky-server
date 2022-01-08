@@ -52,9 +52,7 @@ class TeamMemberService {
       role: payload.role,
       status: payload.status,
     }).save();
-    return {
-      data: teamMemberResponse,
-    };
+    return teamMemberResponse;
   }
 }
 

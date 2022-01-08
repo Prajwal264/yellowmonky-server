@@ -1,6 +1,7 @@
 import { Service } from 'typedi';
 import Handlebars from 'handlebars';
 import fs from 'fs';
+import { createInviteMemberToken } from '../helpers/token.helper';
 import { createTransporter } from '../helpers/auth.helper';
 import { CustomError } from '../types/custom-error.type';
 import User from '../entities/user.entity';
@@ -84,12 +85,18 @@ class TeamService {
     return new Promise((resolve) => {
       fs.readFile('assets/html/join-team.hbs', async (err: any, data: any) => {
         if (!err) {
+          const inviteToken = createInviteMemberToken({
+            emailId,
+          }, '7d');
+          const clientDomain = 'http://localhost:3000/join-team/';
+          const inviteLink = `${clientDomain}/${metadata.team.id}/?joinId=${inviteToken}`;
           try {
             const source = data.toString();
             const template = Handlebars.compile(source);
             const html = template({
               ...metadata,
               emailId,
+              inviteLink,
               firstCharacter: metadata.inviter.username[0],
             });
 

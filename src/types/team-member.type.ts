@@ -1,4 +1,4 @@
-import { registerEnumType } from 'type-graphql';
+import { Field, ObjectType, registerEnumType } from 'type-graphql';
 
 export enum TeamMemberRole {
   ADMIN = 'ADMIN',
@@ -21,3 +21,39 @@ registerEnumType(TeamMemberStatus, {
   name: 'TeamMemberStatus',
   description: 'The team member status type',
 });
+
+/**
+ *
+ *
+ * @export
+ * @class CreateMemberResponse
+ */
+@ObjectType()
+export class CreateMemberResponse {
+  /**
+   *
+   *
+   * @type {string}
+   * @memberof CreateMemberResponse
+   */
+  @Field()
+    teamId: string;
+
+  /**
+   *
+   *
+   * @type {string}
+   * @memberof CreateMemberResponse
+   */
+  @Field()
+    channelId: string;
+
+  /**
+   *
+   *
+   * @type {string}
+   * @memberof CreateMemberResponse
+   */
+  @Field()
+    id: string;
+}

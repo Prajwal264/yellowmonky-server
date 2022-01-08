@@ -1,5 +1,5 @@
 import {
-  Arg, Args, Mutation, Resolver,
+  Args, Mutation, Resolver,
 } from 'type-graphql';
 import { Inject, Service } from 'typedi';
 import { ChannelResponse } from '../types/channel.type';

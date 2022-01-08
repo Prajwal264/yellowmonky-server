@@ -1,6 +1,7 @@
 import { ArgsType, Field } from 'type-graphql';
 import { TeamMemberRole, TeamMemberStatus } from '../types/team-member.type';
 import TeamMember from '../entities/team-member.entity';
+import { RegisterInput } from './user.input';
 
 /**
  *
@@ -47,4 +48,10 @@ class CreateTeamMemberInput implements Partial<TeamMember> {
     status: TeamMemberStatus;
 }
 
-export { CreateTeamMemberInput };
+@ArgsType()
+class CreateUserAndAddToTeamInput extends RegisterInput {
+  @Field()
+    teamId: string;
+}
+
+export { CreateTeamMemberInput, CreateUserAndAddToTeamInput };
