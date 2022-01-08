@@ -15,9 +15,9 @@ class MessageService {
     return messages;
   }
 
-  public async create(payload: CreateMessageInput): Promise<String> {
+  public async create(payload: CreateMessageInput): Promise<Message> {
     const response = await Message.create(payload).save();
-    return response.id;
+    return response;
   }
 }
 

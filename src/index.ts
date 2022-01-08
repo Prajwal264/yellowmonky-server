@@ -5,6 +5,8 @@ import { buildSchema } from 'type-graphql';
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core';
 import { createConnection } from 'typeorm';
 import Container from 'typedi';
+import { WebSocketServer } from 'ws';
+import { useServer } from 'graphql-ws/lib/use/ws';
 import { formatError } from './helpers/error.helper';
 
 /**
@@ -107,13 +109,26 @@ class Server {
     });
     this.graphQLServer = new ApolloServer({
       schema,
-      plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
+      plugins: [ApolloServerPluginLandingPageGraphQLPlayground({
+        subscriptionEndpoint: 'ws:/localhost:4001/graphql',
+      })],
       formatError,
     });
 
     await this.graphQLServer.start();
 
     this.graphQLServer.applyMiddleware({ app: this.app });
+
+    const server = this.app.listen(4001, () => {
+      // create and use the websocket server
+      const wsServer = new WebSocketServer({
+        server,
+        path: '/graphql',
+      }).once('connection', () => {
+        console.log('websocket connected');
+      });
+      useServer({ schema }, wsServer);
+    });
   }
 
   /**

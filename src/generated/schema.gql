@@ -94,6 +94,10 @@ type RegisterAdminResponse implements EntityWrapper {
   username: String!
 }
 
+type Subscription {
+  newChannelMessage(channelId: String!): Message!
+}
+
 type Team implements EntityWrapper {
   createdAt: DateTime!
   displayPicture: String
