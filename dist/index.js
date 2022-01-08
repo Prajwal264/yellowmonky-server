@@ -12,6 +12,7 @@ const typeorm_1 = require("typeorm");
 const typedi_1 = __importDefault(require("typedi"));
 const ws_1 = require("ws");
 const ws_2 = require("graphql-ws/lib/use/ws");
+const cors_1 = __importDefault(require("cors"));
 const error_helper_1 = require("./helpers/error.helper");
 class Server {
     async init() {
@@ -32,6 +33,7 @@ class Server {
     }
     createExpressApplication() {
         this.app = (0, express_1.default)();
+        this.app.use((0, cors_1.default)());
     }
     async createGraphQLServer() {
         const schema = await (0, type_graphql_1.buildSchema)({
