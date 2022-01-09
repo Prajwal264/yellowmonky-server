@@ -14,13 +14,13 @@ const custom_error_type_1 = require("../types/custom-error.type");
 const channel_entity_1 = __importDefault(require("../entities/channel.entity"));
 const errors_1 = require("../constants/errors");
 let ChannelService = class ChannelService {
-    async getByName(name) {
-        const team = await channel_entity_1.default.findOne({ name });
+    async getByName(name, teamId) {
+        const team = await channel_entity_1.default.findOne({ name, teamId });
         return team;
     }
     async create(payload, admin, team) {
         if (payload.name) {
-            const channel = await this.getByName(payload.name);
+            const channel = await this.getByName(payload.name, team.id);
             if (channel) {
                 throw new custom_error_type_1.CustomError(errors_1.ERROR_TYPE.CONFLICT, `channel with name ${payload.name} already exists`);
             }

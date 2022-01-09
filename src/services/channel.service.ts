@@ -20,8 +20,8 @@ class ChannelService {
    * @param {string} name
    * @memberof ChannelService
    */
-  public async getByName(name: string): Promise<ChannelResponse | undefined> {
-    const team = await Channel.findOne({ name });
+  public async getByName(name: string, teamId: string): Promise<ChannelResponse | undefined> {
+    const team = await Channel.findOne({ name, teamId });
     return team;
   }
 
@@ -36,7 +36,7 @@ class ChannelService {
     team: Team,
   ): Promise<ChannelResponse> {
     if (payload.name) {
-      const channel = await this.getByName(payload.name);
+      const channel = await this.getByName(payload.name, team.id);
       if (channel) {
         throw new CustomError(ERROR_TYPE.CONFLICT, `channel with name ${payload.name} already exists`);
       }
