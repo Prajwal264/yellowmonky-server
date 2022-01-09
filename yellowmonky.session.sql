@@ -1,1 +1,0 @@
-select * from team_members WHERE team_id IS "MefIzIRWgk"
