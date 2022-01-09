@@ -43,21 +43,17 @@ class Server {
         });
         this.graphQLServer = new apollo_server_express_1.ApolloServer({
             schema,
-            plugins: [(0, apollo_server_core_1.ApolloServerPluginLandingPageGraphQLPlayground)({
-                    subscriptionEndpoint: 'ws:/localhost:4001/graphql',
-                })],
+            plugins: [(0, apollo_server_core_1.ApolloServerPluginLandingPageGraphQLPlayground)()],
             formatError: error_helper_1.formatError,
         });
         await this.graphQLServer.start();
         this.graphQLServer.applyMiddleware({ app: this.app });
         const server = this.app.listen(4001, () => {
-            const wsServer = new ws_1.WebSocketServer({
+            this.wsServer = new ws_1.WebSocketServer({
                 server,
-                path: '/graphql',
-            }).once('connection', () => {
-                console.log('websocket connected');
+                path: '/ws',
             });
-            (0, ws_2.useServer)({ schema }, wsServer);
+            (0, ws_2.useServer)({ schema }, this.wsServer);
         });
     }
     listen() {

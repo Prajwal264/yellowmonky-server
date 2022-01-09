@@ -46,6 +46,15 @@ class Server {
   /**
    *
    *
+   * @private
+   * @type {WebSocketServer}
+   * @memberof Server
+   */
+  private wsServer: WebSocketServer;
+
+  /**
+   *
+   *
    * @memberof Server
    */
   public async init() {
@@ -111,9 +120,7 @@ class Server {
     });
     this.graphQLServer = new ApolloServer({
       schema,
-      plugins: [ApolloServerPluginLandingPageGraphQLPlayground({
-        subscriptionEndpoint: 'ws:/localhost:4001/graphql',
-      })],
+      plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
       formatError,
     });
 
@@ -123,13 +130,11 @@ class Server {
 
     const server = this.app.listen(4001, () => {
       // create and use the websocket server
-      const wsServer = new WebSocketServer({
+      this.wsServer = new WebSocketServer({
         server,
-        path: '/graphql',
-      }).once('connection', () => {
-        console.log('websocket connected');
+        path: '/ws',
       });
-      useServer({ schema }, wsServer);
+      useServer({ schema }, this.wsServer);
     });
   }
 
