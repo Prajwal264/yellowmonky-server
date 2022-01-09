@@ -90,6 +90,7 @@ type Query {
   allTeamMembers(teamId: String!): [TeamMember!]!
   channel(channelId: String!): Channel!
   getUsers: [User]!
+  team(teamId: String!): Team!
 }
 
 type RegisterAdminResponse implements EntityWrapper {
@@ -108,6 +109,7 @@ type Subscription {
 
 type Team implements EntityWrapper {
   createdAt: DateTime!
+  description: String
   displayPicture: String
   id: ID!
   name: String
@@ -141,6 +143,7 @@ enum TeamMemberStatus {
 
 type TeamResponse implements EntityWrapper {
   createdAt: DateTime!
+  description: String
   displayPicture: String
   id: ID!
   name: String

@@ -29,6 +29,9 @@ let TeamResolver = class TeamResolver {
         this.teamService = teamService;
         this.channelService = channelService;
     }
+    team(id) {
+        return this.teamService.getById(id);
+    }
     async editTeam(payload) {
         var _a, _b;
         const teamId = payload.id;
@@ -89,6 +92,13 @@ let TeamResolver = class TeamResolver {
         return response;
     }
 };
+__decorate([
+    (0, type_graphql_1.Query)(() => team_entity_1.default),
+    __param(0, (0, type_graphql_1.Arg)('teamId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], TeamResolver.prototype, "team", null);
 __decorate([
     (0, type_graphql_1.Mutation)(() => team_type_1.EditTeamResponse),
     __param(0, (0, type_graphql_1.Args)()),

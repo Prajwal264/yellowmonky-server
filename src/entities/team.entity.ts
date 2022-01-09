@@ -32,6 +32,16 @@ class Team extends EntityWrapper {
    * @type {string}
    * @memberof User
    */
+  @Field({ defaultValue: '', nullable: true })
+  @Column({ default: '' })
+    description?: string;
+
+  /**
+   *
+   *
+   * @type {string}
+   * @memberof User
+   */
   @Field({ nullable: true })
   @Column({ name: 'display_picture', nullable: true })
     displayPicture?: string;

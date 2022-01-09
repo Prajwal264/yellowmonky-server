@@ -26,6 +26,11 @@ __decorate([
     __metadata("design:type", String)
 ], Team.prototype, "name", void 0);
 __decorate([
+    (0, type_graphql_1.Field)({ defaultValue: '', nullable: true }),
+    (0, typeorm_1.Column)({ default: '' }),
+    __metadata("design:type", String)
+], Team.prototype, "description", void 0);
+__decorate([
     (0, type_graphql_1.Field)({ nullable: true }),
     (0, typeorm_1.Column)({ name: 'display_picture', nullable: true }),
     __metadata("design:type", String)

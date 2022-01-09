@@ -1,5 +1,6 @@
 import {
-  Args, Mutation, Resolver,
+  Arg,
+  Args, Mutation, Query, Resolver,
 } from 'type-graphql';
 import { Inject, Service } from 'typedi';
 import { ChannelResponse } from '../types/channel.type';
@@ -7,7 +8,7 @@ import ChannelService from '../services/channel.service';
 import TeamService from '../services/team.service';
 import { EditTeamInput, InvitedMemberInput } from '../input/team.input';
 import Team from '../entities/team.entity';
-import { EditTeamResponse } from '../types/team.type';
+import { EditTeamResponse, TeamResponse } from '../types/team.type';
 import UserService from '../services/user.service';
 
 /**
@@ -30,6 +31,20 @@ class TeamResolver {
     @Inject() private readonly teamService: TeamService,
     @Inject() private readonly channelService: ChannelService,
   ) {}
+
+  /**
+   *
+   *
+   * @param {string} id
+   * @return {*}  {Promise<TeamResponse>}
+   * @memberof TeamResolver
+   */
+  @Query(() => Team)
+  team(
+    @Arg('teamId') id: string,
+  ): Promise<TeamResponse> {
+    return this.teamService.getById(id);
+  }
 
   /**
    *
