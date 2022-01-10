@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.EditTeamResponse = exports.TeamResponse = void 0;
+exports.EditTeamResponse = exports.TeamListResponse = exports.TeamResponse = void 0;
 const type_graphql_1 = require("type-graphql");
 const team_entity_1 = __importDefault(require("../entities/team.entity"));
 let TeamResponse = class TeamResponse extends team_entity_1.default {
@@ -21,6 +21,16 @@ TeamResponse = __decorate([
     (0, type_graphql_1.ObjectType)()
 ], TeamResponse);
 exports.TeamResponse = TeamResponse;
+let TeamListResponse = class TeamListResponse extends TeamResponse {
+};
+__decorate([
+    (0, type_graphql_1.Field)(),
+    __metadata("design:type", String)
+], TeamListResponse.prototype, "memberCount", void 0);
+TeamListResponse = __decorate([
+    (0, type_graphql_1.ObjectType)()
+], TeamListResponse);
+exports.TeamListResponse = TeamListResponse;
 let EditTeamResponse = class EditTeamResponse {
 };
 __decorate([

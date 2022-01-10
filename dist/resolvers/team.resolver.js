@@ -32,6 +32,10 @@ let TeamResolver = class TeamResolver {
     team(id) {
         return this.teamService.getById(id);
     }
+    async allTeams(userId) {
+        const teams = await this.teamService.getAllByMemberId(userId);
+        return teams;
+    }
     async editTeam(payload) {
         var _a, _b;
         const teamId = payload.id;
@@ -101,6 +105,13 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], TeamResolver.prototype, "team", null);
+__decorate([
+    (0, type_graphql_1.Query)(() => [team_type_1.TeamListResponse]),
+    __param(0, (0, type_graphql_1.Arg)('userId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], TeamResolver.prototype, "allTeams", null);
 __decorate([
     (0, type_graphql_1.Mutation)(() => team_type_1.EditTeamResponse),
     __param(0, (0, type_graphql_1.Args)()),

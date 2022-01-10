@@ -72,6 +72,7 @@ class Team extends EntityWrapper {
    * @type {TeamMember[]}
    * @memberof Team
    */
+  @Field(() => [TeamMember])
   @OneToMany(() => TeamMember, (teamMember) => teamMember.team)
     teamMembers: TeamMember[];
 

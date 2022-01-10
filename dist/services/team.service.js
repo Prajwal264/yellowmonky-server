@@ -25,6 +25,17 @@ let TeamService = class TeamService {
         }
         return team;
     }
+    async getAllByMemberId(memberId) {
+        const teams = await team_entity_1.default.createQueryBuilder('teams')
+            .leftJoin('teams.teamMembers', 'team_members')
+            .where('team_members.user_id = :userId', { userId: memberId })
+            .loadAllRelationIds({
+            relations: ['teamMembers'],
+        })
+            .getMany();
+        const teamListReponse = teams.map((team) => (Object.assign(Object.assign({}, team), { memberCount: team.teamMembers.length })));
+        return teamListReponse;
+    }
     async getByName(name) {
         const team = await team_entity_1.default.findOne({ name });
         return team;

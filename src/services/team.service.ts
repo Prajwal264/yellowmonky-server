@@ -7,7 +7,7 @@ import { CustomError } from '../types/custom-error.type';
 import User from '../entities/user.entity';
 import { ERROR_TYPE } from '../constants/errors';
 import Team from '../entities/team.entity';
-import { TeamResponse } from '../types/team.type';
+import { TeamListResponse, TeamResponse } from '../types/team.type';
 import { CreateTeamInput, EditTeamInput } from '../input/team.input';
 
 /**
@@ -29,6 +29,27 @@ class TeamService {
       throw new CustomError(ERROR_TYPE.NOT_FOUND, 'id');
     }
     return team;
+  }
+
+  /**
+   *
+   *
+   * @param {string} id
+   * @memberof TeamService
+   */
+  public async getAllByMemberId(memberId: string): Promise<TeamListResponse[]> {
+    const teams = await Team.createQueryBuilder('teams')
+      .leftJoin('teams.teamMembers', 'team_members')
+      .where('team_members.user_id = :userId', { userId: memberId })
+      .loadAllRelationIds({
+        relations: ['teamMembers'],
+      })
+      .getMany();
+    const teamListReponse = teams.map((team) => ({
+      ...team,
+      memberCount: team.teamMembers.length,
+    }));
+    return teamListReponse as any;
   }
 
   /**

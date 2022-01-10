@@ -8,7 +8,7 @@ import ChannelService from '../services/channel.service';
 import TeamService from '../services/team.service';
 import { EditTeamInput, InvitedMembersInput } from '../input/team.input';
 import Team from '../entities/team.entity';
-import { EditTeamResponse, TeamResponse } from '../types/team.type';
+import { EditTeamResponse, TeamListResponse, TeamResponse } from '../types/team.type';
 import UserService from '../services/user.service';
 
 /**
@@ -44,6 +44,21 @@ class TeamResolver {
     @Arg('teamId') id: string,
   ): Promise<TeamResponse> {
     return this.teamService.getById(id);
+  }
+
+  /**
+   *
+   *
+   * @param {string} userId
+   * @return {*}  {Promise<TeamListResponse[]>}
+   * @memberof TeamResolver
+   */
+  @Query(() => [TeamListResponse])
+  async allTeams(
+    @Arg('userId') userId: string,
+  ): Promise<TeamListResponse[]> {
+    const teams = await this.teamService.getAllByMemberId(userId);
+    return teams;
   }
 
   /**

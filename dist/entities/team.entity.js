@@ -46,6 +46,7 @@ __decorate([
     __metadata("design:type", user_entity_1.default)
 ], Team.prototype, "owner", void 0);
 __decorate([
+    (0, type_graphql_1.Field)(() => [team_member_entity_1.default]),
     (0, typeorm_1.OneToMany)(() => team_member_entity_1.default, (teamMember) => teamMember.team),
     __metadata("design:type", Array)
 ], Team.prototype, "teamMembers", void 0);

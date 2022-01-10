@@ -11,6 +11,25 @@ import Team from '../entities/team.entity';
 export class TeamResponse extends Team {
 }
 
+/**
+ *
+ *
+ * @export
+ * @class TeamListResponse
+ * @extends {TeamResponse}
+ */
+@ObjectType()
+export class TeamListResponse extends TeamResponse {
+  /**
+   *
+   *
+   * @type {number}
+   * @memberof TeamListResponse
+   */
+  @Field()
+    memberCount: string;
+}
+
 @ObjectType()
 export class EditTeamResponse {
   @Field()

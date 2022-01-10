@@ -89,6 +89,7 @@ type Query {
   allChannelMessages(channelId: String!): [Message!]!
   allChannels(teamId: String!): [Channel]!
   allTeamMembers(teamId: String!): [TeamMember!]!
+  allTeams(userId: String!): [TeamListResponse!]!
   channel(channelId: String!): Channel!
   getUsers: [User]!
   team(teamId: String!): Team!
@@ -115,6 +116,19 @@ type Team implements EntityWrapper {
   id: ID!
   name: String
   ownerId: String!
+  teamMembers: [TeamMember!]!
+  updatedAt: DateTime!
+}
+
+type TeamListResponse implements EntityWrapper {
+  createdAt: DateTime!
+  description: String
+  displayPicture: String
+  id: ID!
+  memberCount: String!
+  name: String
+  ownerId: String!
+  teamMembers: [TeamMember!]!
   updatedAt: DateTime!
 }
 
@@ -149,6 +163,7 @@ type TeamResponse implements EntityWrapper {
   id: ID!
   name: String
   ownerId: String!
+  teamMembers: [TeamMember!]!
   updatedAt: DateTime!
 }
 
