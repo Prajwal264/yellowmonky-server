@@ -22,7 +22,6 @@ type Query {
 }
 
 type User implements EntityWrapper {
-  accountType: String!
   createdAt: DateTime!
   email: String!
   id: ID!

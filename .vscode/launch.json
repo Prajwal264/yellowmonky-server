@@ -1,0 +1,21 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch server debug",
+      "program": "${workspaceRoot}/node_modules/ts-node-dev/lib/bin.js",
+      "args": [
+        "--inspect",
+        // "--no-notify",
+        "--respawn",
+        "--transpile-only",
+        "./src/index.ts"
+      ],
+      "protocol": "inspector",
+      "internalConsoleOptions": "openOnSessionStart",
+      "port": 4000
+    },
+  ]
+}

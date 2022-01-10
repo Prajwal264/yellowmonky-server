@@ -1,4 +1,4 @@
-import { validateOrReject } from 'class-validator';
+// import { validate, validateOrReject } from 'class-validator';
 import {
   Field, ID, InterfaceType,
 } from 'type-graphql';
@@ -6,11 +6,16 @@ import {
   BaseEntity,
   BeforeInsert,
   BeforeUpdate,
+  // BeforeUpdate,
   CreateDateColumn,
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import shortid from 'shortid';
+import { validateOrReject } from 'class-validator';
+// import { MessageFormatter } from 'class-validator-message-formatter/dist';
+// import Error from '../types/error.type';
+// import errors, { ERROR_TYPE } from '../constants/errors';
 
 /**
  *
@@ -71,6 +76,7 @@ abstract class EntityWrapper extends BaseEntity {
    */
   @BeforeInsert()
   @BeforeUpdate()
+  // eslint-disable-next-line consistent-return
   async validate(): Promise<void> {
     return validateOrReject(this);
   }

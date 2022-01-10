@@ -45,5 +45,6 @@ module.exports = {
     'no-empty-function': 'off',
     'import/prefer-default-export': 'off',
     'max-classes-per-file': 'off',
+    'import/no-cycle': 'off',
   },
 };

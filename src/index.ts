@@ -5,6 +5,10 @@ import { buildSchema } from 'type-graphql';
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core';
 import { createConnection } from 'typeorm';
 import Container from 'typedi';
+import { WebSocketServer } from 'ws';
+import { useServer } from 'graphql-ws/lib/use/ws';
+import cors from 'cors';
+import { formatError } from './helpers/error.helper';
 
 /**
  *
@@ -38,6 +42,15 @@ class Server {
    * @memberof Server
    */
   private graphQLServer: ApolloServer;
+
+  /**
+   *
+   *
+   * @private
+   * @type {WebSocketServer}
+   * @memberof Server
+   */
+  private wsServer: WebSocketServer;
 
   /**
    *
@@ -90,6 +103,7 @@ class Server {
    */
   private createExpressApplication() {
     this.app = express();
+    this.app.use(cors());
   }
 
   /**
@@ -107,11 +121,21 @@ class Server {
     this.graphQLServer = new ApolloServer({
       schema,
       plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
+      formatError,
     });
 
     await this.graphQLServer.start();
 
     this.graphQLServer.applyMiddleware({ app: this.app });
+
+    const server = this.app.listen(4001, () => {
+      // create and use the websocket server
+      this.wsServer = new WebSocketServer({
+        server,
+        path: '/ws',
+      });
+      useServer({ schema }, this.wsServer);
+    });
   }
 
   /**

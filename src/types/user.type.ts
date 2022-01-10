@@ -1,12 +1,33 @@
 import { Field, ObjectType } from 'type-graphql';
 import User from '../entities/user.entity';
-import Error from './error.type';
+
+/**
+ *
+ *
+ * @export
+ * @class UserResponse
+ */
+@ObjectType()
+export class UserResponse extends User {}
 
 @ObjectType()
-export class UserResponse {
-  @Field({ nullable: true })
-    data?: User;
+export class AdminUser extends User {
+  /**
+   *
+   *
+   * @type {string}
+   * @memberof User
+   */
+  @Field(() => String)
+    teamId: string;
+}
 
-  @Field(() => [Error], { nullable: true })
-    errors?: Error[];
+/**
+ *
+ *
+ * @export
+ * @class RegisterAdminResponse
+ */
+@ObjectType()
+export class RegisterAdminResponse extends AdminUser {
 }
