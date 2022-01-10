@@ -17,14 +17,25 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const type_graphql_1 = require("type-graphql");
 const typedi_1 = require("typedi");
+const channel_input_1 = require("../input/channel.input");
+const team_service_1 = __importDefault(require("../services/team.service"));
+const user_service_1 = __importDefault(require("../services/user.service"));
 const channel_entity_1 = __importDefault(require("../entities/channel.entity"));
 const channel_service_1 = __importDefault(require("../services/channel.service"));
 let ChannelResolver = class ChannelResolver {
-    constructor(channelService) {
+    constructor(channelService, userService, teamService) {
         this.channelService = channelService;
+        this.userService = userService;
+        this.teamService = teamService;
     }
     allChannels(teamId) {
         return this.channelService.fetchExistingChannelsByTeamId(teamId);
+    }
+    async createChannel(payload, adminId, teamId) {
+        const adminPromise = this.userService.getById(adminId);
+        const teamPromise = this.teamService.getById(teamId);
+        const [admin, team] = await Promise.all([adminPromise, teamPromise]);
+        return this.channelService.create(payload, admin, team);
     }
     channel(channelId) {
         return this.channelService.fetchById(channelId);
@@ -38,6 +49,15 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ChannelResolver.prototype, "allChannels", null);
 __decorate([
+    (0, type_graphql_1.Mutation)(() => channel_entity_1.default),
+    __param(0, (0, type_graphql_1.Args)()),
+    __param(1, (0, type_graphql_1.Arg)('adminId')),
+    __param(2, (0, type_graphql_1.Arg)('teamId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [channel_input_1.CreateChannelInput, String, String]),
+    __metadata("design:returntype", Promise)
+], ChannelResolver.prototype, "createChannel", null);
+__decorate([
     (0, type_graphql_1.Query)(() => channel_entity_1.default),
     __param(0, (0, type_graphql_1.Arg)('channelId')),
     __metadata("design:type", Function),
@@ -48,7 +68,11 @@ ChannelResolver = __decorate([
     (0, typedi_1.Service)(),
     (0, type_graphql_1.Resolver)(() => channel_entity_1.default),
     __param(0, (0, typedi_1.Inject)()),
-    __metadata("design:paramtypes", [channel_service_1.default])
+    __param(1, (0, typedi_1.Inject)()),
+    __param(2, (0, typedi_1.Inject)()),
+    __metadata("design:paramtypes", [channel_service_1.default,
+        user_service_1.default,
+        team_service_1.default])
 ], ChannelResolver);
 exports.default = ChannelResolver;
 //# sourceMappingURL=channel.resolver.js.map

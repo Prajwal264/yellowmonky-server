@@ -24,8 +24,8 @@ class CreateChannelInput implements Partial<Channel> {
     * @type {string}
     * @memberof CreateTeamInput
     */
-   @Field({ nullable: true })
-     displayPicture?: string;
+    @Field({ nullable: true })
+      description?: string;
  }
 
 export { CreateChannelInput };

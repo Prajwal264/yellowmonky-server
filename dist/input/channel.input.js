@@ -20,7 +20,7 @@ __decorate([
 __decorate([
     (0, type_graphql_1.Field)({ nullable: true }),
     __metadata("design:type", String)
-], CreateChannelInput.prototype, "displayPicture", void 0);
+], CreateChannelInput.prototype, "description", void 0);
 CreateChannelInput = __decorate([
     (0, type_graphql_1.ArgsType)()
 ], CreateChannelInput);

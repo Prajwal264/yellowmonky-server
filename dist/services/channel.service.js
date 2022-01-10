@@ -27,6 +27,7 @@ let ChannelService = class ChannelService {
         }
         const channel = await channel_entity_1.default.create({
             name: payload.name,
+            description: payload.description || '',
             team,
             admin,
         }).save();

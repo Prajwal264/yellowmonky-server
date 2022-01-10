@@ -81,7 +81,7 @@ class EditTeamInput extends CreateTeamInput {
  * @class CreateTeamInput
  */
  @ArgsType()
-class InvitedMemberInput {
+class InvitedMembersInput {
   /**
   *
   *
@@ -97,9 +97,9 @@ class InvitedMemberInput {
     * @type {[string]}
     * @memberof CreateTeamInput
     */
-   @Field(() => String)
-   @IsEmail()
-     inviteeEmail: string;
+   @Field(() => [String])
+   @IsEmail({}, { each: true })
+     inviteeEmails: string[];
 
    /**
     *
@@ -114,5 +114,5 @@ class InvitedMemberInput {
 export {
   CreateTeamInput,
   EditTeamInput,
-  InvitedMemberInput,
+  InvitedMembersInput,
 };

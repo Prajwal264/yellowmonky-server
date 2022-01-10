@@ -6,7 +6,7 @@ import { Inject, Service } from 'typedi';
 import { ChannelResponse } from '../types/channel.type';
 import ChannelService from '../services/channel.service';
 import TeamService from '../services/team.service';
-import { EditTeamInput, InvitedMemberInput } from '../input/team.input';
+import { EditTeamInput, InvitedMembersInput } from '../input/team.input';
 import Team from '../entities/team.entity';
 import { EditTeamResponse, TeamResponse } from '../types/team.type';
 import UserService from '../services/user.service';
@@ -111,15 +111,24 @@ class TeamResolver {
     };
   }
 
+  /**
+   *
+   *
+   * @param {InvitedMembersInput} payload
+   * @return {*}
+   * @memberof TeamResolver
+   */
   @Mutation(() => Boolean)
-  async inviteMember(
-    @Args() payload: InvitedMemberInput,
+  async inviteMembers(
+    @Args() payload: InvitedMembersInput,
   ) {
     const teamPromise = this.teamService.getById(payload.teamId);
     const inviterPromise = this.userService.getById(payload.inviterId);
     const [team, inviter] = await Promise.all([teamPromise, inviterPromise]);
-    const response = await this.teamService.sendInvite(payload.inviteeEmail, { team, inviter });
-    return response;
+    const invitePromises = payload.inviteeEmails
+      .map((email) => this.teamService.sendInvite(email, { team, inviter }));
+    await Promise.all(invitePromises);
+    return true;
   }
 }
 

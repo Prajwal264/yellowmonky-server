@@ -103,6 +103,7 @@ class TeamService {
             const transporter = await createTransporter();
             await transporter.sendMail({
               to: emailId, // list of receivers
+              from: 'excitedhchips@gmail.com',
               subject: `${metadata.inviter.username} has invited you to work with them in YellowMonky`,
               html,
             });

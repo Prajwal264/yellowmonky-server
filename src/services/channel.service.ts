@@ -44,6 +44,7 @@ class ChannelService {
 
     const channel = await Channel.create({
       name: payload.name,
+      description: payload.description || '',
       team,
       admin,
     }).save();

@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.InvitedMemberInput = exports.EditTeamInput = exports.CreateTeamInput = void 0;
+exports.InvitedMembersInput = exports.EditTeamInput = exports.CreateTeamInput = void 0;
 const class_validator_1 = require("class-validator");
 const type_graphql_1 = require("type-graphql");
 let CreateTeamInput = class CreateTeamInput {
@@ -49,23 +49,23 @@ EditTeamInput = __decorate([
     (0, type_graphql_1.ArgsType)()
 ], EditTeamInput);
 exports.EditTeamInput = EditTeamInput;
-let InvitedMemberInput = class InvitedMemberInput {
+let InvitedMembersInput = class InvitedMembersInput {
 };
 __decorate([
     (0, type_graphql_1.Field)(() => String),
     __metadata("design:type", String)
-], InvitedMemberInput.prototype, "inviterId", void 0);
+], InvitedMembersInput.prototype, "inviterId", void 0);
 __decorate([
-    (0, type_graphql_1.Field)(() => String),
-    (0, class_validator_1.IsEmail)(),
-    __metadata("design:type", String)
-], InvitedMemberInput.prototype, "inviteeEmail", void 0);
+    (0, type_graphql_1.Field)(() => [String]),
+    (0, class_validator_1.IsEmail)({}, { each: true }),
+    __metadata("design:type", Array)
+], InvitedMembersInput.prototype, "inviteeEmails", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
     __metadata("design:type", String)
-], InvitedMemberInput.prototype, "teamId", void 0);
-InvitedMemberInput = __decorate([
+], InvitedMembersInput.prototype, "teamId", void 0);
+InvitedMembersInput = __decorate([
     (0, type_graphql_1.ArgsType)()
-], InvitedMemberInput);
-exports.InvitedMemberInput = InvitedMemberInput;
+], InvitedMembersInput);
+exports.InvitedMembersInput = InvitedMembersInput;
 //# sourceMappingURL=team.input.js.map

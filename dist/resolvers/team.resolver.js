@@ -84,12 +84,14 @@ let TeamResolver = class TeamResolver {
             channels: existingChannels.map((channel) => channel.id),
         };
     }
-    async inviteMember(payload) {
+    async inviteMembers(payload) {
         const teamPromise = this.teamService.getById(payload.teamId);
         const inviterPromise = this.userService.getById(payload.inviterId);
         const [team, inviter] = await Promise.all([teamPromise, inviterPromise]);
-        const response = await this.teamService.sendInvite(payload.inviteeEmail, { team, inviter });
-        return response;
+        const invitePromises = payload.inviteeEmails
+            .map((email) => this.teamService.sendInvite(email, { team, inviter }));
+        await Promise.all(invitePromises);
+        return true;
     }
 };
 __decorate([
@@ -110,9 +112,9 @@ __decorate([
     (0, type_graphql_1.Mutation)(() => Boolean),
     __param(0, (0, type_graphql_1.Args)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [team_input_1.InvitedMemberInput]),
+    __metadata("design:paramtypes", [team_input_1.InvitedMembersInput]),
     __metadata("design:returntype", Promise)
-], TeamResolver.prototype, "inviteMember", null);
+], TeamResolver.prototype, "inviteMembers", null);
 TeamResolver = __decorate([
     (0, typedi_1.Service)(),
     (0, type_graphql_1.Resolver)(() => team_entity_1.default),
