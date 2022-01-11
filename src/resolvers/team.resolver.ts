@@ -80,6 +80,7 @@ class TeamResolver {
       name: payload.name,
       displayPicture: payload.displayPicture,
     };
+    console.log(editTeamPayload);
     // update team info
     const editTeamPromise = this.teamService.edit(editTeamPayload);
     // create channels
