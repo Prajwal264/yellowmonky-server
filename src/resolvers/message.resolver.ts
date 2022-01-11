@@ -34,8 +34,19 @@ class MessageResolver {
   @Query(() => [Message])
   async allChannelMessages(
     @Arg('channelId') channelId: string,
+    @Arg('limit') limit: number,
+    @Arg('cursor', { nullable: true }) cursor?: string,
   ): Promise<Message[]> {
-    return this.messageService.getAllByChannelId(channelId);
+    const paginationConfig: {
+      limit: number,
+      cursor?: string,
+    } = {
+      limit,
+    };
+    if (cursor) {
+      paginationConfig.cursor = cursor;
+    }
+    return this.messageService.getAllByChannelId(channelId, paginationConfig);
   }
 
   /**

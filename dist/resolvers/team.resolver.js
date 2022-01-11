@@ -46,6 +46,7 @@ let TeamResolver = class TeamResolver {
             name: payload.name,
             displayPicture: payload.displayPicture,
         };
+        console.log(editTeamPayload);
         const editTeamPromise = this.teamService.edit(editTeamPayload);
         const existingChannelsPromise = this.channelService.fetchExistingChannelsByTeamId(teamId);
         const adminPromise = this.userService.getById(adminId);

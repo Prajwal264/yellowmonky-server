@@ -85,15 +85,11 @@ class TeamService {
   }
 
   public async edit(payload: EditTeamInput): Promise<TeamResponse> {
-    const editTeamPayload = {} as EditTeamInput;
-    if (payload.name) editTeamPayload.name = payload.name;
-    if (payload.displayPicture) editTeamPayload.displayPicture = payload.displayPicture;
     const team = await this.getById(payload.id);
-    await Team.update(team, editTeamPayload);
-    return {
-      ...team,
-      ...editTeamPayload,
-    } as TeamResponse;
+    if (payload.name) team.name = payload.name;
+    if (payload.displayPicture) team.displayPicture = payload.displayPicture;
+    await Team.update(payload.id, team);
+    return team;
   }
 
   public async sendInvite(

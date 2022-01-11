@@ -25,8 +25,14 @@ let MessageResolver = class MessageResolver {
     constructor(messageService) {
         this.messageService = messageService;
     }
-    async allChannelMessages(channelId) {
-        return this.messageService.getAllByChannelId(channelId);
+    async allChannelMessages(channelId, limit, cursor) {
+        const paginationConfig = {
+            limit,
+        };
+        if (cursor) {
+            paginationConfig.cursor = cursor;
+        }
+        return this.messageService.getAllByChannelId(channelId, paginationConfig);
     }
     async createMessage(payload, pubsub) {
         const message = await this.messageService.create(payload);
@@ -40,8 +46,10 @@ let MessageResolver = class MessageResolver {
 __decorate([
     (0, type_graphql_1.Query)(() => [message_entity_1.default]),
     __param(0, (0, type_graphql_1.Arg)('channelId')),
+    __param(1, (0, type_graphql_1.Arg)('limit')),
+    __param(2, (0, type_graphql_1.Arg)('cursor', { nullable: true })),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [String, Number, String]),
     __metadata("design:returntype", Promise)
 ], MessageResolver.prototype, "allChannelMessages", null);
 __decorate([

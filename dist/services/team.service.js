@@ -54,14 +54,13 @@ let TeamService = class TeamService {
         return team;
     }
     async edit(payload) {
-        const editTeamPayload = {};
-        if (payload.name)
-            editTeamPayload.name = payload.name;
-        if (payload.displayPicture)
-            editTeamPayload.displayPicture = payload.displayPicture;
         const team = await this.getById(payload.id);
-        await team_entity_1.default.update(team, editTeamPayload);
-        return Object.assign(Object.assign({}, team), editTeamPayload);
+        if (payload.name)
+            team.name = payload.name;
+        if (payload.displayPicture)
+            team.displayPicture = payload.displayPicture;
+        await team_entity_1.default.update(payload.id, team);
+        return team;
     }
     async sendInvite(emailId, metadata) {
         return new Promise((resolve) => {
