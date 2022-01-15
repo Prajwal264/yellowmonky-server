@@ -49,7 +49,7 @@ class UserService {
   public async getById(id: string): Promise<UserResponse> {
     const user = await User.findOne(id);
     if (!user) {
-      throw new CustomError(ERROR_TYPE.NOT_FOUND, 'id');
+      throw new CustomError(ERROR_TYPE.NOT_FOUND, 'id', `cannot find user with id: ${id}`);
     }
     return user;
   }
@@ -97,11 +97,11 @@ class UserService {
     const { email, password } = payload;
     const userResponse = await this.getByEmail(email);
     if (!userResponse) {
-      throw new CustomError(ERROR_TYPE.NOT_FOUND, 'email');
+      throw new CustomError(ERROR_TYPE.NOT_FOUND, 'email', 'Email doesn\'t exist');
     }
     const validUser = await this.comparePasswords(password, userResponse.password);
     if (!validUser) {
-      throw new CustomError(ERROR_TYPE.UNAUTHORIZED, 'password');
+      throw new CustomError(ERROR_TYPE.UNAUTHORIZED, 'password', 'Invalid password');
     }
     return userResponse;
   }

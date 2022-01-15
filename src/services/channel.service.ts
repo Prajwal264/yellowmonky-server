@@ -63,7 +63,7 @@ class ChannelService {
     if (payload.name) {
       const channel = await this.getByName(payload.name, team.id);
       if (channel) {
-        throw new CustomError(ERROR_TYPE.CONFLICT, `channel with name ${payload.name} already exists`);
+        throw new CustomError(ERROR_TYPE.CONFLICT, 'name', `channel with name ${payload.name} already exists`);
       }
     }
 
@@ -90,7 +90,7 @@ class ChannelService {
     if (payload.name) {
       const existingChannel = await this.getByName(payload.name, team.id);
       if (existingChannel) {
-        throw new CustomError(ERROR_TYPE.CONFLICT, `channel with name ${payload.name} already exists`);
+        throw new CustomError(ERROR_TYPE.CONFLICT, 'name', `channel with name ${payload.name} already exists`);
       }
       channel.name = payload.name;
     }

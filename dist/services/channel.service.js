@@ -39,7 +39,7 @@ let ChannelService = class ChannelService {
         if (payload.name) {
             const channel = await this.getByName(payload.name, team.id);
             if (channel) {
-                throw new custom_error_type_1.CustomError(errors_1.ERROR_TYPE.CONFLICT, `channel with name ${payload.name} already exists`);
+                throw new custom_error_type_1.CustomError(errors_1.ERROR_TYPE.CONFLICT, 'name', `channel with name ${payload.name} already exists`);
             }
         }
         const channel = await channel_entity_1.default.create({
@@ -56,7 +56,7 @@ let ChannelService = class ChannelService {
         if (payload.name) {
             const existingChannel = await this.getByName(payload.name, team.id);
             if (existingChannel) {
-                throw new custom_error_type_1.CustomError(errors_1.ERROR_TYPE.CONFLICT, `channel with name ${payload.name} already exists`);
+                throw new custom_error_type_1.CustomError(errors_1.ERROR_TYPE.CONFLICT, 'name', `channel with name ${payload.name} already exists`);
             }
             channel.name = payload.name;
         }

@@ -28,7 +28,7 @@ let UserService = class UserService {
     async getById(id) {
         const user = await user_entity_1.default.findOne(id);
         if (!user) {
-            throw new custom_error_type_1.CustomError(errors_1.ERROR_TYPE.NOT_FOUND, 'id');
+            throw new custom_error_type_1.CustomError(errors_1.ERROR_TYPE.NOT_FOUND, 'id', `cannot find user with id: ${id}`);
         }
         return user;
     }
@@ -54,11 +54,11 @@ let UserService = class UserService {
         const { email, password } = payload;
         const userResponse = await this.getByEmail(email);
         if (!userResponse) {
-            throw new custom_error_type_1.CustomError(errors_1.ERROR_TYPE.NOT_FOUND, 'email');
+            throw new custom_error_type_1.CustomError(errors_1.ERROR_TYPE.NOT_FOUND, 'email', 'Email doesn\'t exist');
         }
         const validUser = await this.comparePasswords(password, userResponse.password);
         if (!validUser) {
-            throw new custom_error_type_1.CustomError(errors_1.ERROR_TYPE.UNAUTHORIZED, 'password');
+            throw new custom_error_type_1.CustomError(errors_1.ERROR_TYPE.UNAUTHORIZED, 'password', 'Invalid password');
         }
         return userResponse;
     }

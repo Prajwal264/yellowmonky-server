@@ -21,7 +21,7 @@ let TeamService = class TeamService {
     async getById(id) {
         const team = await team_entity_1.default.findOne(id);
         if (!team) {
-            throw new custom_error_type_1.CustomError(errors_1.ERROR_TYPE.NOT_FOUND, 'id');
+            throw new custom_error_type_1.CustomError(errors_1.ERROR_TYPE.NOT_FOUND, 'id', `Cannot fine team with id: ${id}`);
         }
         return team;
     }
@@ -44,7 +44,7 @@ let TeamService = class TeamService {
         if (payload.name) {
             const team = await this.getByName(payload.name);
             if (team) {
-                throw new custom_error_type_1.CustomError(errors_1.ERROR_TYPE.CONFLICT, `team with name ${payload.name} already exists`);
+                throw new custom_error_type_1.CustomError(errors_1.ERROR_TYPE.CONFLICT, 'name', `team with name ${payload.name} already exists`);
             }
         }
         const team = await team_entity_1.default.create({
