@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CreateChannelInput = void 0;
+exports.EditChannelInput = exports.CreateChannelInput = void 0;
 const type_graphql_1 = require("type-graphql");
 let CreateChannelInput = class CreateChannelInput {
 };
@@ -21,8 +21,22 @@ __decorate([
     (0, type_graphql_1.Field)({ nullable: true }),
     __metadata("design:type", String)
 ], CreateChannelInput.prototype, "description", void 0);
+__decorate([
+    (0, type_graphql_1.Field)({ nullable: true }),
+    __metadata("design:type", String)
+], CreateChannelInput.prototype, "topics", void 0);
 CreateChannelInput = __decorate([
     (0, type_graphql_1.ArgsType)()
 ], CreateChannelInput);
 exports.CreateChannelInput = CreateChannelInput;
+let EditChannelInput = class EditChannelInput extends CreateChannelInput {
+};
+__decorate([
+    (0, type_graphql_1.Field)(),
+    __metadata("design:type", String)
+], EditChannelInput.prototype, "channelId", void 0);
+EditChannelInput = __decorate([
+    (0, type_graphql_1.ArgsType)()
+], EditChannelInput);
+exports.EditChannelInput = EditChannelInput;
 //# sourceMappingURL=channel.input.js.map

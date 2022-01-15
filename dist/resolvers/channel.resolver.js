@@ -37,6 +37,9 @@ let ChannelResolver = class ChannelResolver {
         const [admin, team] = await Promise.all([adminPromise, teamPromise]);
         return this.channelService.create(payload, admin, team);
     }
+    async editChannel(payload) {
+        return this.channelService.edit(payload);
+    }
     channel(channelId) {
         return this.channelService.fetchById(channelId);
     }
@@ -57,6 +60,13 @@ __decorate([
     __metadata("design:paramtypes", [channel_input_1.CreateChannelInput, String, String]),
     __metadata("design:returntype", Promise)
 ], ChannelResolver.prototype, "createChannel", null);
+__decorate([
+    (0, type_graphql_1.Mutation)(() => channel_entity_1.default),
+    __param(0, (0, type_graphql_1.Args)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [channel_input_1.EditChannelInput]),
+    __metadata("design:returntype", Promise)
+], ChannelResolver.prototype, "editChannel", null);
 __decorate([
     (0, type_graphql_1.Query)(() => channel_entity_1.default),
     __param(0, (0, type_graphql_1.Arg)('channelId')),

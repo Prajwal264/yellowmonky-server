@@ -2,7 +2,7 @@ import {
   Arg, Args, Mutation, Query, Resolver,
 } from 'type-graphql';
 import { Inject, Service } from 'typedi';
-import { CreateChannelInput } from '../input/channel.input';
+import { CreateChannelInput, EditChannelInput } from '../input/channel.input';
 import TeamService from '../services/team.service';
 import UserService from '../services/user.service';
 import Channel from '../entities/channel.entity';
@@ -41,6 +41,15 @@ class ChannelResolver {
     return this.channelService.fetchExistingChannelsByTeamId(teamId);
   }
 
+  /**
+   *
+   *
+   * @param {CreateChannelInput} payload
+   * @param {string} adminId
+   * @param {string} teamId
+   * @return {*}
+   * @memberof ChannelResolver
+   */
   @Mutation(() => Channel)
   async createChannel(
     @Args() payload: CreateChannelInput,
@@ -51,6 +60,20 @@ class ChannelResolver {
     const teamPromise = this.teamService.getById(teamId);
     const [admin, team] = await Promise.all([adminPromise, teamPromise]);
     return this.channelService.create(payload, admin, team);
+  }
+
+  /**
+   *
+   *
+   * @param {EditChannelInput} payload
+   * @return {*}
+   * @memberof ChannelResolver
+   */
+  @Mutation(() => Channel)
+  async editChannel(
+    @Args() payload: EditChannelInput,
+  ) {
+    return this.channelService.edit(payload);
   }
 
   /**

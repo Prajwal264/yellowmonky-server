@@ -45,6 +45,16 @@ class Channel extends EntityWrapper {
    * @type {string}
    * @memberof Channel
    */
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+    topics?: string;
+
+  /**
+   *
+   *
+   * @type {string}
+   * @memberof Channel
+   */
   @Field()
   @Column({ name: 'admin_id' })
     adminId: string;

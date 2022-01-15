@@ -5,17 +5,24 @@ import { CustomError } from '../types/custom-error.type';
 import Message from '../entities/message.entity';
 import { CreateMessageInput } from '../input/message.input';
 
+/**
+ *
+ *
+ * @class MessageService
+ */
 @Service()
 class MessageService {
+  /**
+   * Creates an instance of MessageService.
+   * @memberof MessageService
+   */
   constructor() {}
 
   /**
-   *
-   *
-   * @param {string} messageId
-   * @return {*}  {Promise<Message>}
-   * @memberof MessageService
-   */
+ * Get a message by its id.
+ * @param {string} messageId - string
+ * @returns The message object.
+ */
   public async getById(messageId: string): Promise<Message> {
     const channel = await Message.findOne(messageId);
     if (!channel) {
@@ -24,6 +31,12 @@ class MessageService {
     return channel;
   }
 
+  /**
+ * Get all messages in a channel.
+ * @param {string} channelId - The ID of the channel to get messages from.
+ * @param paginationConfig - {
+ * @returns An array of messages.
+ */
   public async getAllByChannelId(channelId: string, paginationConfig: {
     limit: number,
     cursor?: string,
@@ -45,6 +58,11 @@ class MessageService {
     return messages;
   }
 
+  /**
+   * Create a new message.
+   * @param {CreateMessageInput} payload - CreateMessageInput
+   * @returns The message that was created.
+  */
   public async create(payload: CreateMessageInput): Promise<Message> {
     const response = await Message.create(payload).save();
     return response;

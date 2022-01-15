@@ -51,7 +51,7 @@ class UserResolver {
    *
    *
    * @param {RegisterInput} payload
-   * @return {*}  {Promise<RegisterAdminResponse>}
+   * @return {*}  {Promise<Partial<RegisterAdminResponse>>}
    * @memberof UserResolver
    */
   @Mutation(() => RegisterAdminResponse)

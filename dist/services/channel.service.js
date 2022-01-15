@@ -5,6 +5,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -13,10 +19,21 @@ const typedi_1 = require("typedi");
 const custom_error_type_1 = require("../types/custom-error.type");
 const channel_entity_1 = __importDefault(require("../entities/channel.entity"));
 const errors_1 = require("../constants/errors");
+const team_service_1 = __importDefault(require("./team.service"));
 let ChannelService = class ChannelService {
+    constructor(teamService) {
+        this.teamService = teamService;
+    }
+    async getById(channelId) {
+        const channel = await channel_entity_1.default.findOne(channelId);
+        if (!channel) {
+            throw new custom_error_type_1.CustomError(errors_1.ERROR_TYPE.BAD_REQUEST, 'id', `channel with id: ${channelId} doesn't exist`);
+        }
+        return channel;
+    }
     async getByName(name, teamId) {
-        const team = await channel_entity_1.default.findOne({ name, teamId });
-        return team;
+        const channel = await channel_entity_1.default.findOne({ name, teamId });
+        return channel;
     }
     async create(payload, admin, team) {
         if (payload.name) {
@@ -33,6 +50,25 @@ let ChannelService = class ChannelService {
         }).save();
         return channel;
     }
+    async edit(payload) {
+        const channel = await this.getById(payload.channelId);
+        const team = await this.teamService.getById(channel === null || channel === void 0 ? void 0 : channel.teamId);
+        if (payload.name) {
+            const existingChannel = await this.getByName(payload.name, team.id);
+            if (existingChannel) {
+                throw new custom_error_type_1.CustomError(errors_1.ERROR_TYPE.CONFLICT, `channel with name ${payload.name} already exists`);
+            }
+            channel.name = payload.name;
+        }
+        if (payload.description) {
+            channel.description = payload.description;
+        }
+        if (payload.topics) {
+            channel.topics = payload.topics;
+        }
+        await channel_entity_1.default.update(payload.channelId, channel);
+        return channel;
+    }
     async fetchById(channelId) {
         const channel = await channel_entity_1.default.findOne(channelId);
         if (!channel) {
@@ -46,7 +82,9 @@ let ChannelService = class ChannelService {
     }
 };
 ChannelService = __decorate([
-    (0, typedi_1.Service)()
+    (0, typedi_1.Service)(),
+    __param(0, (0, typedi_1.Inject)()),
+    __metadata("design:paramtypes", [team_service_1.default])
 ], ChannelService);
 exports.default = ChannelService;
 //# sourceMappingURL=channel.service.js.map

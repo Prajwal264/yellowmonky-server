@@ -20,6 +20,7 @@ type Channel implements EntityWrapper {
   id: ID!
   name: String!
   teamId: String!
+  topics: String
   updatedAt: DateTime!
 }
 
@@ -76,9 +77,10 @@ enum MessageSourceType {
 }
 
 type Mutation {
-  createChannel(adminId: String!, description: String, name: String, teamId: String!): Channel!
+  createChannel(adminId: String!, description: String, name: String, teamId: String!, topics: String): Channel!
   createMessage(content: String!, creatorId: String!, sourceChannelId: String, sourceType: MessageSourceType!): String!
   createUserAndAddToTeam(email: String!, password: String!, teamId: String!, username: String!): CreateMemberResponse!
+  editChannel(channelId: String!, description: String, name: String, topics: String): Channel!
   editTeam(channels: [String], displayPicture: String, id: String!, members: [String], name: String, ownerId: String!): EditTeamResponse!
   inviteMembers(inviteeEmails: [String!]!, inviterId: String!, teamId: String!): Boolean!
   login(email: String!, password: String!): UserResponse!

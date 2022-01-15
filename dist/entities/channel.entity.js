@@ -31,6 +31,11 @@ __decorate([
     __metadata("design:type", String)
 ], Channel.prototype, "description", void 0);
 __decorate([
+    (0, type_graphql_1.Field)({ nullable: true }),
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], Channel.prototype, "topics", void 0);
+__decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.Column)({ name: 'admin_id' }),
     __metadata("design:type", String)

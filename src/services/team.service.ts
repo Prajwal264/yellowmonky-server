@@ -18,10 +18,9 @@ import { CreateTeamInput, EditTeamInput } from '../input/team.input';
 @Service()
 class TeamService {
   /**
-   *
-   *
-   * @param {string} id
-   * @memberof TeamService
+   * `Get a team by id`.
+   * @param {string} id - string
+   * @returns The team object.
    */
   public async getById(id: string): Promise<TeamResponse> {
     const team = await Team.findOne(id);
@@ -32,11 +31,10 @@ class TeamService {
   }
 
   /**
-   *
-   *
-   * @param {string} id
-   * @memberof TeamService
-   */
+ * Get all teams that a user is a member of.
+ * @param {string} memberId - string - The id of the member to get teams for.
+ * @returns The team list response.
+ */
   public async getAllByMemberId(memberId: string): Promise<TeamListResponse[]> {
     const teams = await Team.createQueryBuilder('teams')
       .leftJoin('teams.teamMembers', 'team_members')
@@ -53,10 +51,9 @@ class TeamService {
   }
 
   /**
-   *
-   *
-   * @param {string} name
-   * @memberof TeamService
+   * "Get a team by name."
+   * @param {string} name - string - The name of the team to find.
+   * @returns The team object.
    */
   public async getByName(name: string): Promise<TeamResponse | undefined> {
     const team = await Team.findOne({ name });
@@ -64,10 +61,11 @@ class TeamService {
   }
 
   /**
-   *
-   *
-   * @memberof TeamService
-   */
+ * Create a new team.
+ * @param {CreateTeamInput} payload - CreateTeamInput
+ * @param {User} owner - User
+ * @returns The team object.
+ */
   public async create(payload: CreateTeamInput, owner: User): Promise<TeamResponse> {
     if (payload.name) {
       const team = await this.getByName(payload.name);
@@ -84,6 +82,11 @@ class TeamService {
     return team;
   }
 
+  /**
+ * `Edit a team by id`.
+ * @param {EditTeamInput} payload - EditTeamInput
+ * @returns The team that was updated.
+ */
   public async edit(payload: EditTeamInput): Promise<TeamResponse> {
     const team = await this.getById(payload.id);
     if (payload.name) team.name = payload.name;
@@ -92,6 +95,13 @@ class TeamService {
     return team;
   }
 
+  /**
+   * It takes in an emailId and a metadata object, and sends an email to the emailId with the invite
+   * link.
+   * @param {string} emailId - The email address of the user to send the invite to
+   * @param metadata - {
+   * @returns A boolean value.
+   */
   public async sendInvite(
     emailId: string,
     metadata: {
