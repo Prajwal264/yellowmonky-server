@@ -1,6 +1,7 @@
 import { Service } from 'typedi';
 import Handlebars from 'handlebars';
 import fs from 'fs';
+import { FindOneOptions } from 'typeorm';
 import { createInviteMemberToken } from '../helpers/token.helper';
 import { createTransporter } from '../helpers/auth.helper';
 import { CustomError } from '../types/custom-error.type';
@@ -22,8 +23,8 @@ class TeamService {
    * @param {string} id - string
    * @returns The team object.
    */
-  public async getById(id: string): Promise<TeamResponse> {
-    const team = await Team.findOne(id);
+  public async getById(id: string, findOptions?: FindOneOptions<Team>): Promise<TeamResponse> {
+    const team = await Team.findOne(id, findOptions);
     if (!team) {
       throw new CustomError(ERROR_TYPE.NOT_FOUND, 'id', `Cannot fine team with id: ${id}`);
     }

@@ -18,8 +18,8 @@ const custom_error_type_1 = require("../types/custom-error.type");
 const errors_1 = require("../constants/errors");
 const team_entity_1 = __importDefault(require("../entities/team.entity"));
 let TeamService = class TeamService {
-    async getById(id) {
-        const team = await team_entity_1.default.findOne(id);
+    async getById(id, findOptions) {
+        const team = await team_entity_1.default.findOne(id, findOptions);
         if (!team) {
             throw new custom_error_type_1.CustomError(errors_1.ERROR_TYPE.NOT_FOUND, 'id', `Cannot fine team with id: ${id}`);
         }
