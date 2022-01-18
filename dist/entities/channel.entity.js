@@ -17,7 +17,7 @@ const type_graphql_1 = require("type-graphql");
 const wrapper_1 = __importDefault(require("./wrapper"));
 const team_entity_1 = __importDefault(require("./team.entity"));
 const user_entity_1 = __importDefault(require("./user.entity"));
-const message_entity_1 = __importDefault(require("./message.entity"));
+const channel_message_entity_1 = __importDefault(require("./channel-message.entity"));
 let Channel = class Channel extends wrapper_1.default {
 };
 __decorate([
@@ -51,7 +51,7 @@ __decorate([
     __metadata("design:type", String)
 ], Channel.prototype, "teamId", void 0);
 __decorate([
-    (0, typeorm_1.OneToMany)(() => message_entity_1.default, (message) => message.sourceChannel),
+    (0, typeorm_1.OneToMany)(() => channel_message_entity_1.default, (message) => message.sourceChannel),
     (0, typeorm_1.JoinColumn)(),
     __metadata("design:type", Array)
 ], Channel.prototype, "channelMessage", void 0);

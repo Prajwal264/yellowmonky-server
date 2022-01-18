@@ -19,7 +19,6 @@ const wrapper_1 = __importDefault(require("./wrapper"));
 const team_member_entity_1 = __importDefault(require("./team-member.entity"));
 const team_entity_1 = __importDefault(require("./team.entity"));
 const channel_entity_1 = __importDefault(require("./channel.entity"));
-const message_entity_1 = __importDefault(require("./message.entity"));
 let User = class User extends wrapper_1.default {
 };
 __decorate([
@@ -46,10 +45,6 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => channel_entity_1.default, (channel) => channel.admin),
     __metadata("design:type", Array)
 ], User.prototype, "channelAdmin", void 0);
-__decorate([
-    (0, typeorm_1.OneToMany)(() => message_entity_1.default, (message) => message.creator),
-    __metadata("design:type", Array)
-], User.prototype, "messageCreator", void 0);
 __decorate([
     (0, typeorm_1.OneToMany)(() => team_entity_1.default, (team) => team.owner),
     __metadata("design:type", Array)

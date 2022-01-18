@@ -9,7 +9,7 @@ import { Field, ObjectType } from 'type-graphql';
 import EntityWrapper from './wrapper';
 import Team from './team.entity';
 import User from './user.entity';
-import Message from './message.entity';
+import ChannelMessage from './channel-message.entity';
 /**
  *
  *
@@ -18,7 +18,7 @@ import Message from './message.entity';
  */
 @ObjectType({ implements: EntityWrapper })
 @Entity({ name: 'channels' })
-class Channel extends EntityWrapper {
+abstract class Channel extends EntityWrapper {
   /**
    *
    *
@@ -85,9 +85,9 @@ class Channel extends EntityWrapper {
    * @type {Team}
    * @memberof Channel
    */
-  @OneToMany(() => Message, (message) => message.sourceChannel)
+  @OneToMany(() => ChannelMessage, (message) => message.sourceChannel)
   @JoinColumn()
-    channelMessage: Message[];
+    channelMessage: ChannelMessage[];
 
   /**
    *

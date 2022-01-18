@@ -9,29 +9,29 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CreateMessageInput = void 0;
+exports.CreateChannelMessageInput = void 0;
 const type_graphql_1 = require("type-graphql");
 const message_type_1 = require("../types/message.type");
-let CreateMessageInput = class CreateMessageInput {
+let CreateChannelMessageInput = class CreateChannelMessageInput {
 };
 __decorate([
     (0, type_graphql_1.Field)(),
     __metadata("design:type", String)
-], CreateMessageInput.prototype, "content", void 0);
+], CreateChannelMessageInput.prototype, "content", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
     __metadata("design:type", String)
-], CreateMessageInput.prototype, "creatorId", void 0);
-__decorate([
-    (0, type_graphql_1.Field)({ nullable: true }),
-    __metadata("design:type", String)
-], CreateMessageInput.prototype, "sourceChannelId", void 0);
+], CreateChannelMessageInput.prototype, "creatorId", void 0);
 __decorate([
     (0, type_graphql_1.Field)(() => message_type_1.MessageSourceType),
     __metadata("design:type", String)
-], CreateMessageInput.prototype, "sourceType", void 0);
-CreateMessageInput = __decorate([
+], CreateChannelMessageInput.prototype, "sourceType", void 0);
+__decorate([
+    (0, type_graphql_1.Field)({ nullable: true }),
+    __metadata("design:type", String)
+], CreateChannelMessageInput.prototype, "sourceChannelId", void 0);
+CreateChannelMessageInput = __decorate([
     (0, type_graphql_1.ArgsType)()
-], CreateMessageInput);
-exports.CreateMessageInput = CreateMessageInput;
+], CreateChannelMessageInput);
+exports.CreateChannelMessageInput = CreateChannelMessageInput;
 //# sourceMappingURL=message.input.js.map

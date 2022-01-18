@@ -14,13 +14,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const typedi_1 = require("typedi");
 const typeorm_1 = require("typeorm");
+const channel_message_entity_1 = __importDefault(require("../entities/channel-message.entity"));
 const errors_1 = require("../constants/errors");
 const custom_error_type_1 = require("../types/custom-error.type");
-const message_entity_1 = __importDefault(require("../entities/message.entity"));
-let MessageService = class MessageService {
+let ChannelMessageService = class ChannelMessageService {
     constructor() { }
     async getById(messageId) {
-        const channel = await message_entity_1.default.findOne(messageId);
+        const channel = await channel_message_entity_1.default.findOne(messageId);
         if (!channel) {
             throw new custom_error_type_1.CustomError(errors_1.ERROR_TYPE.NOT_FOUND, 'messageId', 'No message Found');
         }
@@ -40,17 +40,17 @@ let MessageService = class MessageService {
             const cursorMessage = await this.getById(paginationConfig.cursor);
             findOptions.where.createdAt = (0, typeorm_1.LessThan)(new Date(cursorMessage.createdAt));
         }
-        const messages = await message_entity_1.default.find(findOptions);
+        const messages = await channel_message_entity_1.default.find(findOptions);
         return messages;
     }
     async create(payload) {
-        const response = await message_entity_1.default.create(payload).save();
+        const response = await channel_message_entity_1.default.create(payload).save();
         return response;
     }
 };
-MessageService = __decorate([
+ChannelMessageService = __decorate([
     (0, typedi_1.Service)(),
     __metadata("design:paramtypes", [])
-], MessageService);
-exports.default = MessageService;
-//# sourceMappingURL=message.service.js.map
+], ChannelMessageService);
+exports.default = ChannelMessageService;
+//# sourceMappingURL=channel-message.service.js.map

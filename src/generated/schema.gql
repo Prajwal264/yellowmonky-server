@@ -24,6 +24,21 @@ type Channel implements EntityWrapper {
   updatedAt: DateTime!
 }
 
+type ChannelMessage implements EntityWrapper & Message {
+  childMessages: ChannelMessage
+  content: String!
+  createdAt: DateTime!
+  creator: TeamMember!
+  creatorId: String!
+  id: ID!
+  parentMessage: ChannelMessage
+  parentMessageId: String
+  sourceChannel: Channel!
+  sourceChannelId: String!
+  sourceType: MessageSourceType!
+  updatedAt: DateTime!
+}
+
 type CreateMemberResponse {
   channelId: String!
   id: String!
@@ -55,17 +70,12 @@ type Error {
   statusCode: Int!
 }
 
-type Message implements EntityWrapper {
-  childMessages: Message
+interface Message implements EntityWrapper {
   content: String!
   createdAt: DateTime!
-  creator: User!
   creatorId: String!
   id: ID!
-  parentMessage: Message
   parentMessageId: String
-  sourceChannel: Channel!
-  sourceChannelId: String!
   sourceType: MessageSourceType!
   updatedAt: DateTime!
 }
@@ -78,7 +88,7 @@ enum MessageSourceType {
 
 type Mutation {
   createChannel(adminId: String!, description: String, name: String, teamId: String!, topics: String): Channel!
-  createMessage(content: String!, creatorId: String!, sourceChannelId: String, sourceType: MessageSourceType!): String!
+  createChannelMessage(content: String!, creatorId: String!, sourceChannelId: String, sourceType: MessageSourceType!): String!
   createUserAndAddToTeam(email: String!, password: String!, teamId: String!, username: String!): CreateMemberResponse!
   editChannel(channelId: String!, description: String, name: String, topics: String): Channel!
   editTeam(channels: [String], displayPicture: String, id: String!, members: [String], name: String, ownerId: String!): EditTeamResponse!
@@ -88,7 +98,7 @@ type Mutation {
 }
 
 type Query {
-  allChannelMessages(channelId: String!, cursor: String, limit: Float!): [Message!]!
+  allChannelMessages(channelId: String!, cursor: String, limit: Float!): [ChannelMessage!]!
   allChannels(teamId: String!): [Channel]!
   allTeamMembers(teamId: String!): [TeamMember!]!
   allTeams(userId: String!): [TeamListResponse!]!
@@ -108,7 +118,7 @@ type RegisterAdminResponse implements EntityWrapper {
 }
 
 type Subscription {
-  newChannelMessage(channelId: String!): Message!
+  newChannelMessage(channelId: String!): ChannelMessage!
 }
 
 type Team implements EntityWrapper {

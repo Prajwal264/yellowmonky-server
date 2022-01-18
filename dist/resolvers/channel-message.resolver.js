@@ -17,13 +17,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const type_graphql_1 = require("type-graphql");
 const typedi_1 = require("typedi");
+const channel_message_entity_1 = __importDefault(require("../entities/channel-message.entity"));
 const subscription_topics_type_1 = require("../types/subscription-topics.type");
 const message_input_1 = require("../input/message.input");
-const message_service_1 = __importDefault(require("../services/message.service"));
-const message_entity_1 = __importDefault(require("../entities/message.entity"));
-let MessageResolver = class MessageResolver {
-    constructor(messageService) {
-        this.messageService = messageService;
+const channel_message_service_1 = __importDefault(require("../services/channel-message.service"));
+let ChannelMessageResolver = class ChannelMessageResolver {
+    constructor(channelMessageService) {
+        this.channelMessageService = channelMessageService;
     }
     async allChannelMessages(channelId, limit, cursor) {
         const paginationConfig = {
@@ -32,10 +32,10 @@ let MessageResolver = class MessageResolver {
         if (cursor) {
             paginationConfig.cursor = cursor;
         }
-        return this.messageService.getAllByChannelId(channelId, paginationConfig);
+        return this.channelMessageService.getAllByChannelId(channelId, paginationConfig);
     }
-    async createMessage(payload, pubsub) {
-        const message = await this.messageService.create(payload);
+    async createChannelMessage(payload, pubsub) {
+        const message = await this.channelMessageService.create(payload);
         pubsub.publish(subscription_topics_type_1.SubscriptionTopic.NEW_CHANNEL_MESSAGE, message);
         return message.id;
     }
@@ -44,23 +44,23 @@ let MessageResolver = class MessageResolver {
     }
 };
 __decorate([
-    (0, type_graphql_1.Query)(() => [message_entity_1.default]),
+    (0, type_graphql_1.Query)(() => [channel_message_entity_1.default]),
     __param(0, (0, type_graphql_1.Arg)('channelId')),
     __param(1, (0, type_graphql_1.Arg)('limit')),
     __param(2, (0, type_graphql_1.Arg)('cursor', { nullable: true })),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, Number, String]),
     __metadata("design:returntype", Promise)
-], MessageResolver.prototype, "allChannelMessages", null);
+], ChannelMessageResolver.prototype, "allChannelMessages", null);
 __decorate([
     (0, type_graphql_1.Mutation)(() => String),
     __param(0, (0, type_graphql_1.Args)()),
     __param(1, (0, type_graphql_1.PubSub)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [message_input_1.CreateMessageInput,
+    __metadata("design:paramtypes", [message_input_1.CreateChannelMessageInput,
         type_graphql_1.PubSubEngine]),
     __metadata("design:returntype", Promise)
-], MessageResolver.prototype, "createMessage", null);
+], ChannelMessageResolver.prototype, "createChannelMessage", null);
 __decorate([
     (0, type_graphql_1.Subscription)({
         topics: subscription_topics_type_1.SubscriptionTopic.NEW_CHANNEL_MESSAGE,
@@ -69,14 +69,14 @@ __decorate([
     __param(0, (0, type_graphql_1.Root)()),
     __param(1, (0, type_graphql_1.Arg)('channelId')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [message_entity_1.default, String]),
-    __metadata("design:returntype", message_entity_1.default)
-], MessageResolver.prototype, "newChannelMessage", null);
-MessageResolver = __decorate([
+    __metadata("design:paramtypes", [channel_message_entity_1.default, String]),
+    __metadata("design:returntype", channel_message_entity_1.default)
+], ChannelMessageResolver.prototype, "newChannelMessage", null);
+ChannelMessageResolver = __decorate([
     (0, typedi_1.Service)(),
-    (0, type_graphql_1.Resolver)(() => message_entity_1.default),
+    (0, type_graphql_1.Resolver)(() => channel_message_entity_1.default),
     __param(0, (0, typedi_1.Inject)()),
-    __metadata("design:paramtypes", [message_service_1.default])
-], MessageResolver);
-exports.default = MessageResolver;
-//# sourceMappingURL=message.resolver.js.map
+    __metadata("design:paramtypes", [channel_message_service_1.default])
+], ChannelMessageResolver);
+exports.default = ChannelMessageResolver;
+//# sourceMappingURL=channel-message.resolver.js.map

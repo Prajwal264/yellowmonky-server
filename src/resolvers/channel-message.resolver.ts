@@ -2,10 +2,10 @@ import {
   Arg, Args, Mutation, PubSub, PubSubEngine, Query, Resolver, Root, Subscription,
 } from 'type-graphql';
 import { Inject, Service } from 'typedi';
+import ChannelMessage from '../entities/channel-message.entity';
 import { SubscriptionTopic } from '../types/subscription-topics.type';
-import { CreateMessageInput } from '../input/message.input';
-import MessageService from '../services/message.service';
-import Message from '../entities/message.entity';
+import { CreateChannelMessageInput } from '../input/message.input';
+import ChannelMessageService from '../services/channel-message.service';
 
 /**
  *
@@ -13,15 +13,15 @@ import Message from '../entities/message.entity';
  * @class MessageResolver
  */
 @Service()
-@Resolver(() => Message)
-class MessageResolver {
+@Resolver(() => ChannelMessage)
+class ChannelMessageResolver {
   /**
    * Creates an instance of MessageResolver.
    * @param {MessageService} messageService
    * @memberof MessageResolver
    */
   constructor(
-    @Inject() private readonly messageService: MessageService,
+    @Inject() private readonly channelMessageService: ChannelMessageService,
   ) {}
 
   /**
@@ -31,12 +31,12 @@ class MessageResolver {
    * @return {*}  {Promise<Message[]>}
    * @memberof MessageResolver
    */
-  @Query(() => [Message])
+  @Query(() => [ChannelMessage])
   async allChannelMessages(
     @Arg('channelId') channelId: string,
     @Arg('limit') limit: number,
     @Arg('cursor', { nullable: true }) cursor?: string,
-  ): Promise<Message[]> {
+  ): Promise<ChannelMessage[]> {
     const paginationConfig: {
       limit: number,
       cursor?: string,
@@ -46,7 +46,7 @@ class MessageResolver {
     if (cursor) {
       paginationConfig.cursor = cursor;
     }
-    return this.messageService.getAllByChannelId(channelId, paginationConfig);
+    return this.channelMessageService.getAllByChannelId(channelId, paginationConfig);
   }
 
   /**
@@ -57,11 +57,11 @@ class MessageResolver {
    * @memberof MessageResolver
    */
   @Mutation(() => String)
-  async createMessage(
-    @Args() payload: CreateMessageInput,
+  async createChannelMessage(
+    @Args() payload: CreateChannelMessageInput,
     @PubSub() pubsub: PubSubEngine,
   ): Promise<String> {
-    const message = await this.messageService.create(payload);
+    const message = await this.channelMessageService.create(payload);
     pubsub.publish(SubscriptionTopic.NEW_CHANNEL_MESSAGE, message);
     return message.id;
   }
@@ -78,11 +78,11 @@ class MessageResolver {
     filter: ({ payload, args }) => args.channelId === payload.sourceChannelId,
   })
   newChannelMessage(
-    @Root() payload: Message,
+    @Root() payload: ChannelMessage,
     @Arg('channelId') _channelId: string,
-  ) : Message {
+  ) : ChannelMessage {
     return payload;
   }
 }
 
-export default MessageResolver;
+export default ChannelMessageResolver;

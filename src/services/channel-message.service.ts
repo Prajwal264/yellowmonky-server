@@ -1,20 +1,20 @@
 import { Service } from 'typedi';
 import { FindManyOptions, LessThan } from 'typeorm';
+import ChannelMessage from '../entities/channel-message.entity';
 import { ERROR_TYPE } from '../constants/errors';
 import { CustomError } from '../types/custom-error.type';
-import Message from '../entities/message.entity';
-import { CreateMessageInput } from '../input/message.input';
+import { CreateChannelMessageInput } from '../input/message.input';
 
 /**
  *
  *
- * @class MessageService
+ * @class ChannelMessageService
  */
 @Service()
-class MessageService {
+class ChannelMessageService {
   /**
-   * Creates an instance of MessageService.
-   * @memberof MessageService
+   * Creates an instance of ChannelMessageService.
+   * @memberof ChannelMessageService
    */
   constructor() {}
 
@@ -23,8 +23,8 @@ class MessageService {
  * @param {string} messageId - string
  * @returns The message object.
  */
-  public async getById(messageId: string): Promise<Message> {
-    const channel = await Message.findOne(messageId);
+  public async getById(messageId: string): Promise<ChannelMessage> {
+    const channel = await ChannelMessage.findOne(messageId);
     if (!channel) {
       throw new CustomError(ERROR_TYPE.NOT_FOUND, 'messageId', 'No message Found');
     }
@@ -40,7 +40,7 @@ class MessageService {
   public async getAllByChannelId(channelId: string, paginationConfig: {
     limit: number,
     cursor?: string,
-  }): Promise<Message[]> {
+  }): Promise<ChannelMessage[]> {
     const findOptions: FindManyOptions = {
       where: {
         sourceChannelId: channelId,
@@ -54,7 +54,7 @@ class MessageService {
       const cursorMessage = await this.getById(paginationConfig.cursor);
       findOptions.where.createdAt = LessThan(new Date(cursorMessage.createdAt));
     }
-    const messages = await Message.find(findOptions);
+    const messages = await ChannelMessage.find(findOptions);
     return messages;
   }
 
@@ -63,10 +63,10 @@ class MessageService {
    * @param {CreateMessageInput} payload - CreateMessageInput
    * @returns The message that was created.
   */
-  public async create(payload: CreateMessageInput): Promise<Message> {
-    const response = await Message.create(payload).save();
+  public async create(payload: CreateChannelMessageInput): Promise<ChannelMessage> {
+    const response = await ChannelMessage.create(payload).save();
     return response;
   }
 }
 
-export default MessageService;
+export default ChannelMessageService;

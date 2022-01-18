@@ -1,12 +1,13 @@
 import {
   Column,
-  Entity, JoinColumn, ManyToOne,
+  Entity, JoinColumn, ManyToOne, OneToMany,
 } from 'typeorm';
 import { Field, ObjectType } from 'type-graphql';
 import { TeamMemberRole, TeamMemberStatus } from '../types/team-member.type';
 import EntityWrapper from './wrapper';
 import Team from './team.entity';
 import User from './user.entity';
+import ChannelMessage from './channel-message.entity';
 
 /**
  *
@@ -77,6 +78,15 @@ class TeamMember extends EntityWrapper {
   @ManyToOne(() => Team, (team) => team.teamMembers)
   @JoinColumn({ name: 'team_id' })
     team: Team;
+
+  /**
+   *
+   *
+   * @type {Team[]}
+   * @memberof User
+   */
+  @OneToMany(() => ChannelMessage, (message) => message.creator)
+    channelMessageCreator: ChannelMessage[];
 }
 
 export default TeamMember;
