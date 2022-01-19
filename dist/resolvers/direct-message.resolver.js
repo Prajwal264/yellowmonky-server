@@ -65,7 +65,7 @@ __decorate([
 __decorate([
     (0, type_graphql_1.Subscription)({
         topics: subscription_topics_type_1.SubscriptionTopic.NEW_DIRECT_MESSAGE,
-        filter: ({ payload, args, }) => (args.recipientId === payload.creatorId && args.creatorId === payload.recipientId),
+        filter: ({ payload, args, }) => (args.creatorId === payload.creatorId && args.recipientId === payload.recipientId),
     }),
     __param(0, (0, type_graphql_1.Root)()),
     __param(1, (0, type_graphql_1.Arg)('creatorId')),

@@ -76,6 +76,7 @@ class DirectMessageResolver {
    *
    * @param {DirectMessage} payload
    * @param {string} _creatorId
+   * @param {string} _recipientId
    * @return {*}  {DirectMessage}
    * @memberof DirectMessageResolver
    */
@@ -84,7 +85,7 @@ class DirectMessageResolver {
     filter: ({
       payload,
       args,
-    }) => (args.recipientId === payload.creatorId && args.creatorId === payload.recipientId),
+    }) => (args.creatorId === payload.creatorId && args.recipientId === payload.recipientId),
   })
   newDirectMessage(
     @Root() payload: DirectMessage,

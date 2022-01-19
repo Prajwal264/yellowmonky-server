@@ -55,7 +55,19 @@ class DirectMessageService {
       const cursorMessage = await this.getById(paginationConfig.cursor);
       findOptions.where.createdAt = LessThan(new Date(cursorMessage.createdAt));
     }
-    const messages = await DirectMessage.find(findOptions);
+    const messages = await DirectMessage
+      .createQueryBuilder('direct_messages')
+      .where('direct_messages.creator_id = :creatorId AND direct_messages.recipient_id = :recipientId', {
+        creatorId: userId,
+        recipientId,
+      })
+      .orWhere('direct_messages.creator_id = :recipientId AND direct_messages.recipient_id = :creatorId', {
+        creatorId: userId,
+        recipientId,
+      })
+      .take(paginationConfig.limit)
+      .orderBy('created_at', 'DESC')
+      .getMany();
     return messages;
   }
 
