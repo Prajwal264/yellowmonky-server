@@ -4,5 +4,6 @@ exports.SubscriptionTopic = void 0;
 var SubscriptionTopic;
 (function (SubscriptionTopic) {
     SubscriptionTopic["NEW_CHANNEL_MESSAGE"] = "NEW_CHANNEL_MESSAGE";
+    SubscriptionTopic["NEW_DIRECT_MESSAGE"] = "NEW_DIRECT_MESSAGE";
 })(SubscriptionTopic = exports.SubscriptionTopic || (exports.SubscriptionTopic = {}));
 //# sourceMappingURL=subscription-topics.type.js.map

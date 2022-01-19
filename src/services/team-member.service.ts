@@ -1,4 +1,7 @@
 import { Inject, Service } from 'typedi';
+import { FindOneOptions } from 'typeorm';
+import { CustomError } from '../types/custom-error.type';
+import { ERROR_TYPE } from '../constants/errors';
 import { CreateTeamMemberInput } from '../input/team-member.input';
 import UserService from './user.service';
 import TeamService from './team.service';
@@ -22,6 +25,14 @@ class TeamMemberService {
     private readonly userService: UserService,
     private readonly teamService: TeamService,
   ) {}
+
+  public async getById(memberId: string, findOptions: FindOneOptions = {}): Promise<TeamMember> {
+    const member = await TeamMember.findOne(memberId, findOptions);
+    if (!member) {
+      throw new CustomError(ERROR_TYPE.BAD_REQUEST, 'id', `member with id: ${memberId} doesn't exist`);
+    }
+    return member;
+  }
 
   /**
  * "Fetch all team members by team id."

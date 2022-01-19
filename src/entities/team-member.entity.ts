@@ -8,6 +8,7 @@ import EntityWrapper from './wrapper';
 import Team from './team.entity';
 import User from './user.entity';
 import ChannelMessage from './channel-message.entity';
+import DirectMessage from './direct-message.entity';
 
 /**
  *
@@ -78,6 +79,24 @@ class TeamMember extends EntityWrapper {
   @ManyToOne(() => Team, (team) => team.teamMembers)
   @JoinColumn({ name: 'team_id' })
     team: Team;
+
+  /**
+   *
+   *
+   * @type {Team[]}
+   * @memberof User
+   */
+  @OneToMany(() => DirectMessage, (message) => message.recipient)
+    directMessageRecipient: DirectMessage[];
+
+  /**
+   *
+   *
+   * @type {Team[]}
+   * @memberof User
+   */
+   @OneToMany(() => DirectMessage, (message) => message.creator)
+     directMessageCreator: DirectMessage[];
 
   /**
    *

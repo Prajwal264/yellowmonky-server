@@ -38,6 +38,21 @@ class TeamMemberResolver {
    * @return {*}  {Promise<TeamMember[]>}
    * @memberof TeamMemberResolver
    */
+  @Query(() => TeamMember)
+  teamMember(
+    @Arg('memberId') memberId: string,
+  ): Promise<TeamMember> {
+    const member = this.teamMemberService.getById(memberId, { relations: ['user'] });
+    return member;
+  }
+
+  /**
+   *
+   *
+   * @param {string} teamId
+   * @return {*}  {Promise<TeamMember[]>}
+   * @memberof TeamMemberResolver
+   */
   @Query(() => [TeamMember])
   allTeamMembers(
     @Arg('teamId') teamId: string,

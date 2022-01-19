@@ -50,6 +50,21 @@ The javascript `Date` as string. Type represents date and time as the ISO Date s
 """
 scalar DateTime
 
+type DirectMessage implements EntityWrapper & Message {
+  childMessages: DirectMessage
+  content: String!
+  createdAt: DateTime!
+  creator: TeamMember!
+  creatorId: String!
+  id: ID!
+  parentMessage: DirectMessage
+  parentMessageId: String
+  recipient: TeamMember!
+  recipientId: String!
+  sourceType: MessageSourceType!
+  updatedAt: DateTime!
+}
+
 type EditTeamResponse {
   channels: [String!]!
   teamId: String!
@@ -89,6 +104,7 @@ enum MessageSourceType {
 type Mutation {
   createChannel(adminId: String!, description: String, name: String, teamId: String!, topics: String): Channel!
   createChannelMessage(content: String!, creatorId: String!, sourceChannelId: String, sourceType: MessageSourceType!): String!
+  createDirectMessage(content: String!, creatorId: String!, recipientId: String, sourceType: MessageSourceType!): String!
   createUserAndAddToTeam(email: String!, password: String!, teamId: String!, username: String!): CreateMemberResponse!
   editChannel(channelId: String!, description: String, name: String, topics: String): Channel!
   editTeam(channels: [String], displayPicture: String, id: String!, members: [String], name: String, ownerId: String!): EditTeamResponse!
@@ -100,11 +116,13 @@ type Mutation {
 type Query {
   allChannelMessages(channelId: String!, cursor: String, limit: Float!): [ChannelMessage!]!
   allChannels(teamId: String!): [Channel]!
+  allDirectMessagesByRecipientId(creatorId: String!, cursor: String, limit: Float!, recipientId: String!): [DirectMessage!]!
   allTeamMembers(teamId: String!): [TeamMember!]!
   allTeams(userId: String!): [TeamListResponse!]!
   channel(channelId: String!): Channel!
   getUsers: [User]!
   team(teamId: String!): Team!
+  teamMember(memberId: String!): TeamMember!
 }
 
 type RegisterAdminResponse implements EntityWrapper {
@@ -119,6 +137,7 @@ type RegisterAdminResponse implements EntityWrapper {
 
 type Subscription {
   newChannelMessage(channelId: String!): ChannelMessage!
+  newDirectMessage(creatorId: String!, recipientId: String!): DirectMessage!
 }
 
 type Team implements EntityWrapper {

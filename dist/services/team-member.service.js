@@ -16,6 +16,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const typedi_1 = require("typedi");
+const custom_error_type_1 = require("../types/custom-error.type");
+const errors_1 = require("../constants/errors");
 const user_service_1 = __importDefault(require("./user.service"));
 const team_service_1 = __importDefault(require("./team.service"));
 const team_member_entity_1 = __importDefault(require("../entities/team-member.entity"));
@@ -23,6 +25,13 @@ let TeamMemberService = class TeamMemberService {
     constructor(userService, teamService) {
         this.userService = userService;
         this.teamService = teamService;
+    }
+    async getById(memberId, findOptions = {}) {
+        const member = await team_member_entity_1.default.findOne(memberId, findOptions);
+        if (!member) {
+            throw new custom_error_type_1.CustomError(errors_1.ERROR_TYPE.BAD_REQUEST, 'id', `member with id: ${memberId} doesn't exist`);
+        }
+        return member;
     }
     async fetchAllByIteam(teamId) {
         const members = await team_member_entity_1.default.find({ where: { teamId }, relations: ['user'] });

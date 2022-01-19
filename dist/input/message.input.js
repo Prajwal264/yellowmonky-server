@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CreateChannelMessageInput = void 0;
+exports.CreateDirectMessageInput = exports.CreateChannelMessageInput = void 0;
 const type_graphql_1 = require("type-graphql");
 const message_type_1 = require("../types/message.type");
 let CreateChannelMessageInput = class CreateChannelMessageInput {
@@ -34,4 +34,26 @@ CreateChannelMessageInput = __decorate([
     (0, type_graphql_1.ArgsType)()
 ], CreateChannelMessageInput);
 exports.CreateChannelMessageInput = CreateChannelMessageInput;
+let CreateDirectMessageInput = class CreateDirectMessageInput {
+};
+__decorate([
+    (0, type_graphql_1.Field)(),
+    __metadata("design:type", String)
+], CreateDirectMessageInput.prototype, "content", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(),
+    __metadata("design:type", String)
+], CreateDirectMessageInput.prototype, "creatorId", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(() => message_type_1.MessageSourceType),
+    __metadata("design:type", String)
+], CreateDirectMessageInput.prototype, "sourceType", void 0);
+__decorate([
+    (0, type_graphql_1.Field)({ nullable: true }),
+    __metadata("design:type", String)
+], CreateDirectMessageInput.prototype, "recipientId", void 0);
+CreateDirectMessageInput = __decorate([
+    (0, type_graphql_1.ArgsType)()
+], CreateDirectMessageInput);
+exports.CreateDirectMessageInput = CreateDirectMessageInput;
 //# sourceMappingURL=message.input.js.map

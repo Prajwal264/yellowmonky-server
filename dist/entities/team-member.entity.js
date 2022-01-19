@@ -19,6 +19,7 @@ const wrapper_1 = __importDefault(require("./wrapper"));
 const team_entity_1 = __importDefault(require("./team.entity"));
 const user_entity_1 = __importDefault(require("./user.entity"));
 const channel_message_entity_1 = __importDefault(require("./channel-message.entity"));
+const direct_message_entity_1 = __importDefault(require("./direct-message.entity"));
 let TeamMember = class TeamMember extends wrapper_1.default {
 };
 __decorate([
@@ -52,6 +53,14 @@ __decorate([
     (0, typeorm_1.JoinColumn)({ name: 'team_id' }),
     __metadata("design:type", team_entity_1.default)
 ], TeamMember.prototype, "team", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => direct_message_entity_1.default, (message) => message.recipient),
+    __metadata("design:type", Array)
+], TeamMember.prototype, "directMessageRecipient", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => direct_message_entity_1.default, (message) => message.creator),
+    __metadata("design:type", Array)
+], TeamMember.prototype, "directMessageCreator", void 0);
 __decorate([
     (0, typeorm_1.OneToMany)(() => channel_message_entity_1.default, (message) => message.creator),
     __metadata("design:type", Array)

@@ -31,6 +31,10 @@ let TeamMemberResolver = class TeamMemberResolver {
         this.teamMemberService = teamMemberService;
         this.channelService = channelService;
     }
+    teamMember(memberId) {
+        const member = this.teamMemberService.getById(memberId, { relations: ['user'] });
+        return member;
+    }
     allTeamMembers(teamId) {
         const members = this.teamMemberService.fetchAllByIteam(teamId);
         return members;
@@ -58,6 +62,13 @@ let TeamMemberResolver = class TeamMemberResolver {
         };
     }
 };
+__decorate([
+    (0, type_graphql_1.Query)(() => team_member_entity_1.default),
+    __param(0, (0, type_graphql_1.Arg)('memberId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], TeamMemberResolver.prototype, "teamMember", null);
 __decorate([
     (0, type_graphql_1.Query)(() => [team_member_entity_1.default]),
     __param(0, (0, type_graphql_1.Arg)('teamId')),
