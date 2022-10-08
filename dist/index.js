@@ -14,6 +14,8 @@ const ws_1 = require("ws");
 const ws_2 = require("graphql-ws/lib/use/ws");
 const cors_1 = __importDefault(require("cors"));
 const error_helper_1 = require("./helpers/error.helper");
+const dotenv = require('dotenv');
+dotenv.config();
 class Server {
     async init() {
         this.confgure();
@@ -51,7 +53,7 @@ class Server {
         const server = this.app.listen(4001, () => {
             this.wsServer = new ws_1.WebSocketServer({
                 server,
-                path: '/ws',
+                path: '/yellowmonky-ws',
             });
             (0, ws_2.useServer)({ schema }, this.wsServer);
         });

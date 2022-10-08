@@ -136,7 +136,7 @@ class Server {
       // create and use the websocket server
       this.wsServer = new WebSocketServer({
         server,
-        path: '/ws',
+        path: '/yellowmonky-ws',
       });
       useServer({ schema }, this.wsServer);
     });
