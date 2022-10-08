@@ -10,6 +10,10 @@ import { useServer } from 'graphql-ws/lib/use/ws';
 import cors from 'cors';
 import { formatError } from './helpers/error.helper';
 
+const dotenv = require('dotenv');
+
+dotenv.config();
+
 /**
  *
  *
